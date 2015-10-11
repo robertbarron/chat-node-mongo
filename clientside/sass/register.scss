@@ -1,0 +1,62 @@
+#register {
+	margin-top: 0;
+  	padding: 0 5% 10% 5%;
+  	box-sizing: border-box;
+  	h1 {
+		font-weight: 900;
+		text-align: center;
+		letter-spacing: 6px;
+		padding: 60px 50px 15px 50px;
+		border-bottom: solid 1px #222;
+  		margin:0px 100px 0 100px;
+	}
+	.register-container {
+		padding: 60px 0 0;
+		> .collapse {
+			margin-bottom: 20px;
+		}
+		.input-title {
+			height: 70px;
+			line-height: 70px;
+			text-transform: uppercase;
+			letter-spacing: 2px;
+			&:first-letter {
+				font-weight: 900;
+			}
+		}
+		.input-text {
+			height: 70px;
+			font-size: 20px;
+			font-weight: 100;
+			display: block;
+			margin: 0;
+			box-sizing: border-box;
+			&.error {
+				border: solid 1px #f00;
+			}
+		}
+		.error-message {
+			color: #f00;
+			min-height: 20px;
+			max-height: 20px;
+			margin-top: 20px;
+			font-weight: 100;
+			font-size: 20px;
+			.error-ico, .info-ico {
+				width: 30px;
+				display: inline-block;
+			}
+			.info {
+				color: #008cba;
+			}
+		}
+		.boton-container {
+			text-center: center;
+			#register-submit {
+				width: 100%;
+				height: 70px;
+				margin-top: 25px;
+			}
+		}
+	}
+}

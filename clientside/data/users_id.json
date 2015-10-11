@@ -1,0 +1,10 @@
+{
+	"users": [
+		{"user": "robert", "pass": "robert", "nickname" : "Robert", "id" : "3523453"},
+		{"user": "edgar",  "pass": "edgar",  "nickname" : "Edgar",  "id" : "6578678"},
+		{"user": "alex",   "pass": "alex",   "nickname" : "Aletz",  "id" : "345345"},
+		{"user": "gera",   "pass": "gera",   "nickname" : "Gera",   "id" : "213123"},
+		{"user": "jluis",  "pass": "jluis",  "nickname" : "JL",     "id" : "45345345"},
+		{"user": "lucia",  "pass": "lucia",  "nickname" : "Lucy",     "id" : "12312312312"}
+	]
+}
