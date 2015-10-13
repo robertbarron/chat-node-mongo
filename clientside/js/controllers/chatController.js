@@ -4,6 +4,7 @@ var chatController = function () {
 	this.socket = io();
 	this.nickname;
 	this.hexa;
+	this.imageUrl;
 	this.id_user;
 };
 
@@ -18,24 +19,38 @@ chatController.prototype = {
 		this.templateManager = templateManager;
 	},
 	
-	_setUserInfo: function (userInfo) {
+	_setImageUrl : function (image) {
+		if (image == undefined)
+			return 'user_images/default-user.jpeg';
+		else
+			return 'user_images/' + image;
+	},
+
+	_setUserInfo: function (userInfo, callback) {
 		this.id_user  = userInfo.id_user;
 		this.nickname = userInfo.nickname;
 		this.hexa     = userInfo.hexa;
+		this.imageUrl = this._setImageUrl(userInfo.imageUrl);
+		callback(true)
 	},
 
 	loadChat: function (userInfo, callback) {
 		var _this = this;
 		this.render('templates/chat-view.html', $('#chat-app'), function (response) {
-			_this._setUserInfo(userInfo);
-			_this._emitUser();
-			if (callback)
-				callback(true);
+			_this._setUserInfo(userInfo, function (response) {
+				if (response) {
+					_this._emitUser();
+					if (callback)
+						callback(true);
+				}
+			});
 		});
 	},
 	
 	_insertList: function (item) {
+		item.imageUrl = this._setImageUrl(item.imageUrl);
 		if (item.id_user != this.id_user) {
+			item.me = "";
 			this.renderUser(item);
 		} else {
 			item.nickname = "Me";
@@ -47,8 +62,9 @@ chatController.prototype = {
 	newUserListener: function () {
 		var _this = this;
 		this.socket.on("listupdate", function (data) {
-			debugger;
-			$.each(data.userlist, function(index, item) {
+			console.log("data");
+			console.log(data);
+			$.each(data, function(index, item) {
 				_this._insertList(item);
 			});
 		});
@@ -59,7 +75,8 @@ chatController.prototype = {
 		this.socket.emit("userlogin", {
 			"id_user": _this.id_user, 
 			"nickname": _this.nickname,
-			"hexa": _this.hexa
+			"hexa": _this.hexa,
+			"imageUrl": _this.imageUrl
 		});
 	},
 
@@ -69,6 +86,7 @@ chatController.prototype = {
 				"id_user" : this.id_user,
 				"nickname" : this.nickname,
 				"hexa" : this.hexa,
+				"imageUrl" : this.imageUrl,
 				"message": message
 			};
 		callback(newmessage);
@@ -85,7 +103,7 @@ chatController.prototype = {
 		var _this = this,
 			$id = $('#chat-app #chat-view #chat-users'),
 			template = 'templates/new-user.html';
-
+			
 		$id.empty();
 		this.templateManager.getView(template, function (response) {
 			if (response) {
@@ -97,16 +115,32 @@ chatController.prototype = {
 	renderMessage: function (messageBody) {
 		var _this = this,
 			$id = $('#chat-app #chat-view #chat-container'),
-			template = 'templates/user-message-normal.html'
+			template = 'templates/user-message-normal.html';
 
 		this.templateManager.getView(template, function (response) {
 			if (response) {
 				_this.templateManager.$appendView(response, $id, messageBody);
+				$id.animate({ scrollTop: $id.height() }, "slow");
 			}
 		});
 	},
 
-	_cleanMessage: function () {
+	_sanitizeMessage: function (stringValue) {
+		return stringValue.replace(/&\w+?;/g, function (e) {
+		    switch (e) {
+		        case '&nbsp;': 
+		            return ' ';
+		        case '&tab;': 
+		            return '\t';
+		        case '&copy;': 
+		            return String.fromCharCode(169);
+		        default: 
+		            return e;
+		    }
+		});
+	},
+
+	_cleanContainer: function () {
 		$('#chat-app #message').val('');
 	},
 
@@ -116,7 +150,7 @@ chatController.prototype = {
 		this.socket.on("newmessage", function (data) {
 			_this.renderMessage(data);
 			if (data.id_user === _this.id_user)
-				_this._cleanMessage();
+				_this._cleanContainer();
 		});
 	},
 

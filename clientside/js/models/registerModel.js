@@ -54,6 +54,28 @@ registerModel.prototype = {
 		});
 	},
 
+	tryUpload: function (fileUpload, callback) {
+		var formData = new FormData();
+		formData.append('file', fileUpload);
+
+		$.ajax({
+			url : '/tryupload/' + this.collection.user,
+			type : 'POST',
+			data : formData,
+			processData: false,
+			contentType: false,
+			success : function (data) {
+				if (data)
+					callback(true);
+				else
+					callback(false);
+			},
+			error: function () {
+				callback(false);
+			}
+		});
+	},
+
 	_send: function (protocolo, url, data, callback) {
 		$.ajax({
 			type: protocolo,

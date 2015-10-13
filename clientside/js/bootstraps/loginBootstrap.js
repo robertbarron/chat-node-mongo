@@ -3,6 +3,8 @@ loginC = new loginController();
 loginC.setModel(new loginModel());
 loginC.setTemplateManager(JPLoad);
 
+mainC = new mainController();
+
 var loginErrorContainer = '#chat-app #login .error-message';
 //When the user hit the enter key
 $('#chat-app').on('keydown', "#login", function (e) {
@@ -44,7 +46,9 @@ $('#chat-app').on('click', '#login-submit', function (e) {
 			},1000);
 		} else {
 			chatC.loadChat(loginC.getUser(), function (response) {
+				mainC._setLocalStorage(loginC.getUser());
 				if (response) {
+					$('body').addClass('chat-active');
 					chatC.messageListener();
 					chatC.newUserListener();
 				}

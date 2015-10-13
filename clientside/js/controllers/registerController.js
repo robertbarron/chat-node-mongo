@@ -188,7 +188,7 @@ registerController.prototype = {
 						break;
 					case "telefono":
 						_this._addUserRegistration({"id": id, "value": value});
-						this._isPhone(value, function (error, info, response) {
+						_this._isPhone(value, function (error, info, response) {
 							callback(error, info, response);
 						});
 						break;
@@ -220,9 +220,25 @@ registerController.prototype = {
 		});
 	},
 
+	_tryUpload : function (callback) {
+		var fileUpload = $('#chat-app #register #image-receiver')[0].files[0];
+		if (fileUpload != undefined) {
+			this.model.tryUpload(fileUpload, function (response) {
+				callback(response);
+			});
+		} else
+			callback(true);
+	},
+
 	tryRegister: function (callback) {
+		var _this = this;
+
 		this.model.register(function (response) {
-			callback(response);
+			if (response) {
+				_this._tryUpload(function (error, info, message) {
+					callback(true);
+				});
+			}
 		});
 	},
 

@@ -10,8 +10,52 @@
 		border-bottom: solid 1px #222;
   		margin:0px 100px 0 100px;
 	}
+	.row {
+		&.collapse {
+			margin-bottom: 20px;
+		}
+	}
 	.register-container {
-		padding: 60px 0 0;
+		.user-profile-text {
+			text-align: center;
+			height: 30px;
+			line-height: 30px;
+			text-transform: uppercase;
+			letter-spacing: 2px;
+			&:first-letter {
+				font-weight: 900;
+			}
+		}
+		.image-profile-container {
+			text-align: center;
+			margin: 0 auto;
+			height: 140px;
+			min-height: 140px;
+			max-height: 140px;
+			cursor: pointer;
+			.image-profile {
+				width: 100px;
+				height: 100px;
+				border-radius: 100px;
+				-webkit-transition: all 200ms;
+    			transition: all 200ms;
+    			position: absolute;
+    			z-index: 1;
+    			margin-left: -50px;
+				&:hover {
+					border-radius: 140px;
+					transition: all 200ms;
+					-webkit-transform: scale(1.2);
+					transform: scale(1.2);
+					transform-origin: 50% 50%;
+					-webkit-transition: all 200ms;
+				}
+			}
+			#image-receiver {
+				display: none;
+			}
+		}
+		padding: 30px 0 0;
 		> .collapse {
 			margin-bottom: 20px;
 		}

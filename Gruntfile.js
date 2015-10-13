@@ -8,21 +8,31 @@ module.exports = function (grunt) {
     },
     concat: {
       dist: {
-        src: ['<%= ambientes.source %>/**/*.scss'],
-        dest: '<%= ambientes.source %>/all-sources.scss'
+        src: ['<%= ambientes.source %>/*.scss'],
+        dest: '<%= ambientes.dist %>/all-sources.scss'
       }
     },
     sass: {
       dist: {
         files: {
-          '<%= ambientes.dist %>/style.css': '<%= ambientes.source %>/all-sources.scss'
+          '<%= ambientes.dist %>/style.css': '<%= ambientes.dist %>/all-sources.scss'
         }
+      }
+    },
+    clean: {
+      dist: {
+        src: ["<%= ambientes.dist %>/"]
       }
     }
   });
 
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-clean');
 
-  grunt.registerTask('default', ['concat', 'sass']);
+  grunt.registerTask('default', [
+    'clean:dist',
+    'concat:dist',
+    'sass:dist'
+  ]);
 };

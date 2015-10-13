@@ -1,26 +1,41 @@
 var utilities = exports;
 
-utilities.addUser = function (userlist, data, socket, callback) {
-	userlist.push({
-		"socket_id": socket.id,
-		"id_user": data.id_user,
-		"nickname" : data.nickname,
-		"hexa" : data.hexa
-		
-	});
-	data.userlist = userlist;
-	callback(data);
+utilities.addUser = function (data, userInfo, socket, callback) {
+	var userlist = [];
+
+	for (var i = 0 ; i < data.length ; i++) {
+		if (userInfo.nickname == data[i].nickname) {
+			userlist.push({
+				"socket_id": socket.id,
+				"id_user"  : data[i]._id,
+				"nickname" : data[i].nickname,
+				"hexa"     : data[i].hexa,
+				"imageUrl" : data[i].imageUrl
+			});
+		} else {
+			userlist.push({
+				"id_user"  : data[i]._id,
+				"nickname" : data[i].nickname,
+				"hexa"     : data[i].hexa,
+				"imageUrl" : data[i].imageUrl
+			});
+		}
+		if (i == (data.length - 1) ) {
+			callback(userlist);
+			break;
+		}
+	}
 };
 
 utilities.formatRegister = function (data) {
 	var newData = {};
 	newData = {
-		"username": data.username,
+		"username": data.user,
 		"password": data.pass,
 		"nickname": data.nickname,
-		"email": data.correo,
-		"phone": data.telefono,
-		"logged": false
+		"email"   : data.correo,
+		"phone"   : data.telefono,
+		"logged"  : false
 	};
 	return newData;
 };
@@ -38,10 +53,11 @@ utilities.responseJSON = function (response, data) {
 utilities.responseLogin = function (data) {
 	var newData = {
 		"id"      : data._id,
-		"username": data.username,
+		// "username": data.username,
 		"nickname": data.nickname,
 		"email"   : data.email,
-		"phone"   : data.phone
+		"phone"   : data.phone,
+		"imageUrl": data.imageUrl
 	};
 	return newData;
 };
@@ -105,3 +121,16 @@ utilities.formatDisconnect = function (user) {
 
 	return user;
 };
+
+utilities.getExtension = function (mime) {
+	var image = mime.split("/");
+	return image[image.length-1].toLowerCase();
+};
+
+
+utilities.addImage = function (user, name) {
+	user.imageUrl = name;
+	return user;
+};
+
+

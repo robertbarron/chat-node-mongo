@@ -1,15 +1,21 @@
 var express = require('express'),
 	app = express(),
 	bodyParser = require('body-parser'),
+	busboy = require('connect-busboy'),
+	fs = require('fs'),
+
 	path = require('path'),
 	server = require('http').createServer(app),
 	io = require('socket.io').listen(server),
 	mongoose = require('mongoose'),
+	striptags = require('striptags'),
+
     User = require('./dbfiles/user-model'),
     connStr = 'mongodb://localhost:27017/chat-interno';
 	utils = require(path.resolve('./utilities/utilities') ),
 	userList = [],
-	MAX_TRIES = 5;
+	MAX_TRIES = 5,
+	EXTENSIONS = ['png', 'jpg', 'jpeg', 'gif'];
 	
 /* MONGO & MOONGOSE CONNECTION */	
 mongoose.connect(connStr, function(err) {
@@ -19,14 +25,16 @@ mongoose.connect(connStr, function(err) {
 
 /* PARSEADOR DE REQUESTS */
 app.use(bodyParser());
+app.use(busboy());
 
 /* SERVER STATIC REPOSITORIES */
+app.use('/user_images', express.static('../clientside/user_images/') );
 app.use('/static', express.static('../clientside/js/') );
 app.use('/templates', express.static('../clientside/templates/') );
 app.use('/css', express.static('../clientside/css/') );
+app.use('/cssimages', express.static('../clientside/cssimages/') );
 app.use('/vendors', express.static('../clientside/vendors') );
 app.use('/foundation', express.static('../node_modules/zurb-foundation-npm') );
-app.use('/api', express.static('../clientside/data') );
 
 /* ROUTES */
 app.get('/', function(req, res) {
@@ -70,6 +78,45 @@ app.get('/trymail', function(req, res) {
 	    	utils.responseJSON(res, {'exists': true});
 	});
 });
+app.post('/tryupload/*', function(req, res) {
+	var fstream,
+		url = (req.originalUrl).split('/'),
+		user = url[url.length-1];
+	
+	User.findOne({ 'username': user}, function (err, query) {
+		if (err) {
+			utils.responseJSON(res, {'error': true});
+			throw err;
+		}
+		if (query == null) {
+			utils.responseJSON(res, {'error': true});
+		} else {
+		    req.pipe(req.busboy);
+		    req.busboy.on('file', function (fieldname, file, filename, encoding, mimetype) {
+		    	var filename = query._id + "." + utils.getExtension(mimetype),
+		    		filepath = '../clientside/user_images/' + filename;
+
+		    	if (EXTENSIONS.indexOf(utils.getExtension(mimetype) ) != -1) {
+			        fstream = fs.createWriteStream(filepath);
+			        file.pipe(fstream);
+			        fstream.on('close', function () {
+			        	query.imageUrl = filename;
+			        	query.save(function (err) {
+			        		if (err) {
+			        			utils.responseJSON(res, {'error' : true });
+			        			throw err;
+			        		} else
+			        			utils.responseJSON(res, {'imageSaved' : true, 'picture' : filename });
+			        	});
+			        });
+			    } else {
+			    	utils.responseJSON(res, {'extension' : true });
+			    }
+		    });
+		}
+	});
+});
+
 app.post('/tryregister', function(req, res) {
 	var data = utils.formatRegister(req.body.data),
 		newUser = new User(data);
@@ -104,6 +151,8 @@ app.get('/trylogin', function (req, res) {
 		} else {
 			user.comparePassword(data.clave, function (error, isMatch) {
 				// Si se encuentra, y no tiene el maximo de intentos
+				user.blocked = user.blocked || false;
+				user.tries = user.blocked || 0;
 				if (isMatch && !user.blocked && (user.tries < MAX_TRIES) ) {
 					user = utils.formatLogin(user);
 					user.save( function (err) {
@@ -174,13 +223,16 @@ app.get('/trylogin', function (req, res) {
 /* SOCKET COMMUNICATION */
 io.sockets.on('connection', function (socket) {
 	socket.on('message', function (data) {
+		data.message = striptags(data.message);
 		io.sockets.emit("newmessage", data);
 	});
 
 	socket.on('userlogin', function (data) {
-		utils.addUser(userList, data, socket, function (response) {
-			userList = response.userlist;
-			io.sockets.emit("listupdate", response);
+		User.find({'logged' : true}, function (err, query) {
+			utils.addUser(query, data, socket, function (response) {
+				response.userlist = response;
+				io.sockets.emit("listupdate", response.userlist);
+			});
 		});
 	});
 

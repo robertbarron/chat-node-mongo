@@ -14,6 +14,19 @@ loginController.prototype = {
 		this.templateManager = templateManager;
 	},
 
+	_createCookie : function (name, value, days) {
+	    if (days) {
+	        var date = new Date();
+	        date.setTime(date.getTime()+(days*24*60*60*1000));
+	        var expires = "; expires="+date.toGMTString();
+	        document.cookie = name+"="+value+expires+"; path=/";
+	    }
+	    else {
+	    	var expires = "";
+	    	document.cookie = name+"="+value+expires+"; path=/";
+	    }
+	},
+	
 	loadLogin: function () {
 		this.render('templates/user-login.html', $('#chat-app'));
 	},

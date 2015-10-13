@@ -35,16 +35,21 @@ $('#chat-app').on('focusout', '#register .input-text', function (e) {
 
 $('#chat-app').on('click', '#register #register-submit', function (e) {
 	var data = {};
-
 	registerC.validateAll(function (error) {
 		if (error) {
 			registerC.displayError("Algo esta mal, por favor valida", errorContainer);
 		} else {
 			registerC.tryRegister(function (response) {
 				if (response) {
-					confirmationC = new confirmationController();
-					confirmationC.setTemplateManager(JPLoad);
-					confirmationC.render();
+					registerC._tryUpload(function (upload) {
+						if (upload) {
+							confirmationC = new confirmationController();
+							confirmationC.setTemplateManager(JPLoad);
+							confirmationC.render();
+						} else {
+							registerC.displayError("Algo salio mal, por favor, intenta mas tarde.", errorContainer);		
+						}
+					});
 				} else {
 					registerC.displayError("Algo salio mal, por favor, intenta mas tarde.", errorContainer);
 				}

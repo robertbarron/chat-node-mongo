@@ -1,0 +1,24 @@
+<div class="private-chat-window" data-id="{{id_user}}">
+	<div class="header-chat">
+		<div class="user-profile"><img src="{{imageUrl}}" /></div>
+		<div class="info-user-chat">
+			<div class="nickname" data-nickname="{{nickname}}">{{nickname}}</div>
+			<div class="phone" data-phone="{{phone}}">{{phone}}</div>
+			<div class="email" data-email="{{email}}">{{email}}</div>
+		</div>
+		<div class="action-window">
+			<div class="icon-action icon-minimize"></div>
+			<div class="icon-action icon-cancel-circled"></div>
+		</div>
+	</div>
+	<div class="chat-private">
+		<div id="chat-container"></div>
+	</div>
+	<div class="communication-area">
+		<textarea id="message" class="input-text" placeholder="Enter your message"></textarea>
+		<div id="send-message" class="button icon-paper-plane-empty icon-action"></div>
+		<div id="send-url" class="icon-attach-1 icon-action button secondary"></div>
+		<div id="send-photo" class="icon-camera icon-action button secondary"></div>
+		<div class="clear"></div>
+	</div>
+</div>

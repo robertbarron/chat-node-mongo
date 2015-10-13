@@ -13,7 +13,8 @@ var UserSchema = new Schema({
     loggedDate:  { type: Date    },
     tries     :  { type: Number  },
     blocked:     { type: Boolean },
-    blockedDate: { type: Date    }
+    blockedDate: { type: Date    },
+    imageUrl:    { type: String  }
 });
 
 UserSchema.pre("save", function(next) {
