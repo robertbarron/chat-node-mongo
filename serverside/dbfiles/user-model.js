@@ -14,7 +14,8 @@ var UserSchema = new Schema({
     tries     :  { type: Number  },
     blocked:     { type: Boolean },
     blockedDate: { type: Date    },
-    imageUrl:    { type: String  }
+    imageUrl:    { type: String  },
+    socket_id:   { type: String  }
 });
 
 UserSchema.pre("save", function(next) {

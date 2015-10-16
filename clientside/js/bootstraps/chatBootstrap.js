@@ -51,24 +51,33 @@ $('#chat-app').on('click', '#nav-toggle', function (e) {
 	}
 });
 
+//send url
+$('#chat-app').on('click', '#send-url', function (e) {
+	var linkUrl = prompt('Escribe o pega el link que quieres enviar');
+	if (linkUrl.length > 5)
+		chatC.sendURL(linkUrl);
+});
+
+//send photo
+$('#chat-app').on('click', '#send-photo', function (e) {
+	var photoUrl = prompt('Escribe o pega la url de la imagen que quieres enviar');
+	if (photoUrl.length > 5)
+		chatC.sendPhoto(photoUrl);
+});
+
 //click on an active user
 $('#chat-app').on('click', '#chat-view #chat-users .user', function (e) {
 	var click    = $(this),
-		idUser   = click.data('id'),
-		nickName = click.find('.nickname').data('nickname'),
-		imgUrl   = click.find('.user-profile img').attr('src'),
-		obj = {};
-	obj.id_user = idUser;
-	obj.nickname = nickName;
-	obj.imageUrl = imgUrl;
-	obj.phone = "6441430071";
-	obj.email = "rbarron@mx1.ibm.com";
-	if (!click.hasClass('me-class') ) {
-		$('#active-chat-windows').addClass('active');
-		//open new window
-		chatC.templateManager.getView("templates/private-chat-window.html", function (response) {
-			if (response)
-				chatC.templateManager.$loadView(response, $('#chat-app #chat-view #active-chat-windows'),obj);
-		});
-	}
+		userObj = {};
+
+		userObj.id_user  = click.data('id') || null;
+		userObj.nickname = click.find('.nickname').data('nickname') || null;
+		userObj.imageUrl   = click.find('.user-profile img').attr('src') || null;
+		userObj.phone    = click.data('phone') || null;
+		userObj.email    = click.data('email') || null;
+
+	chatWC.setUser({"id_user" : chatC.id_user, "nickname" : chatC.nickname});
+
+	if (!click.hasClass('me-class') )
+		chatWC.newConnection(userObj);
 });

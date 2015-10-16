@@ -3,8 +3,6 @@ loginC = new loginController();
 loginC.setModel(new loginModel());
 loginC.setTemplateManager(JPLoad);
 
-mainC = new mainController();
-
 var loginErrorContainer = '#chat-app #login .error-message';
 //When the user hit the enter key
 $('#chat-app').on('keydown', "#login", function (e) {

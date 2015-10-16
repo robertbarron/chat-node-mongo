@@ -1,16 +1,9 @@
+mainC = new mainController();
+
 $().ready(function () {
 	var hash = document.URL.split("/"),
-		path = hash[hash.length-1],
-		mainC = new mainController(),
-		chatC = new chatController(),
-		loginC= new loginController();
-	
-	loginC.setModel(new loginModel());
-	loginC.setTemplateManager(JPLoad);
-
-	chatC.setModel(new loginModel());
-	chatC.setTemplateManager(JPLoad);
-
+		path = hash[hash.length-1];
+		
 	switch (path) {
 		case "register" :
 			registerC.loadRegister();

@@ -69,7 +69,24 @@ loginController.prototype = {
 			}
 		});
 	},
-	
+
+	loadSavedUser: function (user, callback) {
+		var _this = this;
+		this.model.getSavedLogin(user, function (response, data) {
+			if (response) {
+				if (!data.error) {
+					_this._responseSwitcher(data, function (error, info, response, secureFlag) {
+						callback(error, info, response, secureFlag);
+					});
+				} else {
+					callback(true, false, {"message": 'Algo salio mal, por favor, intenta mas tarde.'}, false);	
+				}
+			} else {
+				callback(true, false, {"message": 'Algo salio mal, por favor, intenta mas tarde.'}, false);
+			}
+		});
+	},
+
 	getUser: function () {
 		return this.model.getInfo();
 	},

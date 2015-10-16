@@ -36,6 +36,7 @@ chatController.prototype = {
 
 	loadChat: function (userInfo, callback) {
 		var _this = this;
+
 		this.render('templates/chat-view.html', $('#chat-app'), function (response) {
 			_this._setUserInfo(userInfo, function (response) {
 				if (response) {
@@ -62,8 +63,6 @@ chatController.prototype = {
 	newUserListener: function () {
 		var _this = this;
 		this.socket.on("listupdate", function (data) {
-			console.log("data");
-			console.log(data);
 			$.each(data, function(index, item) {
 				_this._insertList(item);
 			});
@@ -72,6 +71,7 @@ chatController.prototype = {
 
 	_emitUser: function () {
 		var _this = this;
+
 		this.socket.emit("userlogin", {
 			"id_user": _this.id_user, 
 			"nickname": _this.nickname,
@@ -92,10 +92,15 @@ chatController.prototype = {
 		callback(newmessage);
 	},
 
-	sendMessage: function (message, callback) {
-		var _this = this;
+	sendMessage: function (message, messagetype, callback) {
+		var _this = this,
+			messagetype  = messagetype ? messagetype : "message";
+
 		this._constructMessage(message, function (new_message) {
-			_this.socket.emit("message", new_message);	
+			_this.socket.emit(messagetype, new_message, function (response) {
+				if (callback)
+					callback(response);
+			});	
 		});
 	},
 
@@ -103,7 +108,7 @@ chatController.prototype = {
 		var _this = this,
 			$id = $('#chat-app #chat-view #chat-users'),
 			template = 'templates/new-user.html';
-			
+
 		$id.empty();
 		this.templateManager.getView(template, function (response) {
 			if (response) {
@@ -116,6 +121,19 @@ chatController.prototype = {
 		var _this = this,
 			$id = $('#chat-app #chat-view #chat-container'),
 			template = 'templates/user-message-normal.html';
+
+		this.templateManager.getView(template, function (response) {
+			if (response) {
+				_this.templateManager.$appendView(response, $id, messageBody);
+				$id.animate({ scrollTop: $id.height() }, "slow");
+			}
+		});
+	},
+	
+	renderErrorMessage: function (messageBody) {
+		var _this = this,
+			$id = $('#chat-app #chat-view #chat-container'),
+			template = 'templates/user-message-error.html';
 
 		this.templateManager.getView(template, function (response) {
 			if (response) {
@@ -152,6 +170,30 @@ chatController.prototype = {
 			if (data.id_user === _this.id_user)
 				_this._cleanContainer();
 		});
+	},
+
+	_isValidURL: function (URL) {
+    	return /^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test(URL);
+	},
+
+	sendURL : function (URL) {
+		if (this._isValidURL(URL)) {
+			this.sendMessage(URL, "messageurl", function (response) {
+				this._cleanContainer();
+			});
+		}
+	},
+
+	sendPhoto : function (photoURL) {
+		var _this = this;
+		if (this._isValidURL(photoURL)) {
+			this.sendMessage(photoURL, "messageimg", function (response) {
+				_this._cleanContainer();
+				if (response.imageError) {
+					_this.renderErrorMessage({'message': 'Formato de imagen no soportado'});
+				}
+			});
+		}
 	},
 
 	render: function (template, idSection, callback) {

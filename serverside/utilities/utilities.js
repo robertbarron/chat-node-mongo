@@ -6,18 +6,23 @@ utilities.addUser = function (data, userInfo, socket, callback) {
 	for (var i = 0 ; i < data.length ; i++) {
 		if (userInfo.nickname == data[i].nickname) {
 			userlist.push({
-				"socket_id": socket.id,
 				"id_user"  : data[i]._id,
 				"nickname" : data[i].nickname,
 				"hexa"     : data[i].hexa,
-				"imageUrl" : data[i].imageUrl
+				"email"    : data[i].email,
+				"phone"    : data[i].phone,
+				"imageUrl" : data[i].imageUrl,
+				"socket_id": socket.id
 			});
 		} else {
 			userlist.push({
 				"id_user"  : data[i]._id,
 				"nickname" : data[i].nickname,
 				"hexa"     : data[i].hexa,
-				"imageUrl" : data[i].imageUrl
+				"email"    : data[i].email,
+				"phone"    : data[i].phone,
+				"imageUrl" : data[i].imageUrl,
+				"socket_id": socket.id
 			});
 		}
 		if (i == (data.length - 1) ) {
@@ -38,11 +43,6 @@ utilities.formatRegister = function (data) {
 		"logged"  : false
 	};
 	return newData;
-};
-utilities.removeUser = function (data, socketid, callback) {
-	callback(data.filter(function (item) {
-		return item.socket_id != socketid;
-	}));
 };
 
 utilities.responseJSON = function (response, data) {
@@ -89,6 +89,11 @@ utilities.formatLogin = function (user) {
 	return user;
 };
 
+utilities.trackSocket = function (user, socket) {
+	user.socket_id = socket.id;
+	return user;
+};
+
 utilities.addTries = function (user) {
 	if (user.tries) {
 		user.logged     = false;
@@ -118,6 +123,7 @@ utilities.formatDisconnect = function (user) {
 	user.loggedDate  = new Date(),
 	user.blocked     = false;
 	user.tries       = 0;
+	user.socket_id   = "";
 
 	return user;
 };
@@ -131,6 +137,19 @@ utilities.getExtension = function (mime) {
 utilities.addImage = function (user, name) {
 	user.imageUrl = name;
 	return user;
+};
+
+utilities.inSearch = function (EXT, term) {
+	for (var i = 0; i < EXT.length; i++) {
+		if (term.indexOf(EXT[i]) != -1) {
+			return true;
+			break;
+		}
+		if (i >= (EXT.length - 1) ){
+			return false;
+			break;
+		}
+	}
 };
 
 

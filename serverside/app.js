@@ -13,6 +13,7 @@ var express = require('express'),
     User = require('./dbfiles/user-model'),
     connStr = 'mongodb://localhost:27017/chat-interno';
 	utils = require(path.resolve('./utilities/utilities') ),
+	uuid = require('node-uuid'),
 	userList = [],
 	MAX_TRIES = 5,
 	EXTENSIONS = ['png', 'jpg', 'jpeg', 'gif'];
@@ -44,6 +45,7 @@ app.get('/register', function(req, res) {
 	res.sendFile(path.resolve('../clientside/index.html'));
 });
 /* API */
+	/* test if username is already taken*/
 app.get('/tryuser', function(req, res) {
 	var username = req.query.username;
 
@@ -56,6 +58,7 @@ app.get('/tryuser', function(req, res) {
 	    	utils.responseJSON(res, {'exists': true});
 	});
 });
+	/* test if nick is already taken*/
 app.get('/trynick', function(req, res) {
 	var nickname = req.query.nickname;
 
@@ -67,6 +70,7 @@ app.get('/trynick', function(req, res) {
 	    	utils.responseJSON(res, {'exists': true});
 	});
 });
+	/* test if email account is already taken*/
 app.get('/trymail', function(req, res) {
 	var mail = req.query.mail;
 
@@ -78,6 +82,8 @@ app.get('/trymail', function(req, res) {
 	    	utils.responseJSON(res, {'exists': true});
 	});
 });
+
+	/* upload profile pick */
 app.post('/tryupload/*', function(req, res) {
 	var fstream,
 		url = (req.originalUrl).split('/'),
@@ -96,7 +102,7 @@ app.post('/tryupload/*', function(req, res) {
 		    	var filename = query._id + "." + utils.getExtension(mimetype),
 		    		filepath = '../clientside/user_images/' + filename;
 
-		    	if (EXTENSIONS.indexOf(utils.getExtension(mimetype) ) != -1) {
+		    	if ( utils.inSearch(EXTENSIONS, utils.getExtension(mimetype)) ) {
 			        fstream = fs.createWriteStream(filepath);
 			        file.pipe(fstream);
 			        fstream.on('close', function () {
@@ -117,6 +123,7 @@ app.post('/tryupload/*', function(req, res) {
 	});
 });
 
+	/* tries to register a user */
 app.post('/tryregister', function(req, res) {
 	var data = utils.formatRegister(req.body.data),
 		newUser = new User(data);
@@ -139,6 +146,7 @@ app.post('/tryregister', function(req, res) {
 		}
 	});
 });
+	/* Try to login a user */
 app.get('/trylogin', function (req, res) {
 	var data = req.query;
 	User.findOne({ username: data.username}, function (err, user) {
@@ -220,27 +228,145 @@ app.get('/trylogin', function (req, res) {
 		}
 	});
 });
+
+	/* Try to login a saved user */
+app.get('/saveduser', function (req, res) {
+	var data = req.query;
+	User.findOne({ $and : [{_id: data.id_user}, {nickname: data.nickname}, {email: data.email}, {phone: data.phone}] }, function (err, savedUser) {
+		if (err) {
+			utils.responseJSON(res, {'error': true});
+			throw err;
+		}
+		if (savedUser == null) {
+		    utils.responseJSON(res, {'notfound': true});
+		} else {
+			savedUser = utils.formatLogin(savedUser);
+			savedUser.save( function (err) {
+				if (err) {
+					utils.responseJSON(res, {'error': true});
+					throw err;
+				}
+		    	utils.responseJSON(res, {
+		    		'logged' : true, 
+		    		'user'   : utils.responseLogin(savedUser)
+		    	});
+		    });
+		}
+	});
+});
+
 /* SOCKET COMMUNICATION */
 io.sockets.on('connection', function (socket) {
+/* MAIN EVENTS */
 	socket.on('message', function (data) {
 		data.message = striptags(data.message);
 		io.sockets.emit("newmessage", data);
 	});
 
-	socket.on('userlogin', function (data) {
-		User.find({'logged' : true}, function (err, query) {
-			utils.addUser(query, data, socket, function (response) {
-				response.userlist = response;
-				io.sockets.emit("listupdate", response.userlist);
-			});
+	socket.on('messageurl', function (data) {
+		data.message = '<a href="' + data.message + '" target="_blank">' + data.message + '</a>';
+		data.message = striptags(data.message, "<a>");
+		
+		io.sockets.emit("newmessage", data);
+	});
+
+	socket.on('messageimg', function (data, callback) {
+		data.message = data.message.toLowerCase();
+		if ( utils.inSearch(EXTENSIONS, data.message) ) {
+			data.message = '<img src="' + data.message + '" width="200">';
+			data.message = striptags(data.message, "<img>");
+			
+			io.sockets.emit("newmessage", data);
+		} else
+			callback({'imageError' : true });
+	});
+
+
+	socket.on('userlogin', function (data, callback) {
+		User.findOne({'nickname' : data.nickname}, function (err, user) {
+			if (user != null) {
+				user = utils.trackSocket(user, socket);
+				user.save(function (err) {
+					if (err) {
+						utils.responseJSON(res, {'error': true});
+						throw err;
+					} else {
+						User.find({'logged' : true}, function (err, query) {
+							utils.addUser(query, data, socket, function (response) {
+								response.userlist = response;
+								io.sockets.emit("listupdate", response.userlist);
+							});
+						});
+					}
+				});
+			}
 		});
 	});
 
 	socket.on('disconnect', function() {
-		utils.removeUser(userList, socket.id, function (response) {
-			io.sockets.emit("listupdate", response);
+		User.findOne({'socket_id' : socket.id}, function (err, user) {
+			if (user != null) {
+				user = utils.formatDisconnect(user);
+				user.save( function (err) {
+					if (err) {
+						utils.responseJSON(res, {'error': true});
+						throw err;
+					}
+					// User.find({'logged' : true}, function (err, users) {
+					User.find({'logged' : true}, null, {sort: {'username': 1} }, function (err, users) {
+						if (err) {
+							utils.responseJSON(res, {'error': true});
+							throw err;
+						}
+						utils.addUser(users, user, socket, function (response) {
+							response.userlist = response;
+							io.sockets.emit("listupdate", response.userlist);
+						});
+					});
+				});
+			}
 		});
    	});
+
+   	// ---------------------------------------------------------------
+/* INDIVIDUAL CHATS EVENTS */
+   	socket.on('newconection', function (data, callback) {
+   		var newData = {};
+
+   		newData.sender_id  = data.sender_id;
+		newData.receiver_id  = data.id_user;
+		newData.relation_id = uuid.v4();
+		callback(newData);
+		User.findOne({'_id' : data.id_user}, function (err, user) {
+			if (user != null)
+				io.sockets.broadcast.to(user.socket_id).emit("conection", newData);
+		});
+	});
+   	/* private chat message */
+	socket.on('chatmessage', function (data) {
+		data.message = striptags(data.message);
+		io.sockets.emit("chatnewmessage", data);
+	});
+
+	/* private chat message URL*/
+	socket.on('chatmessageurl', function (data) {
+		data.message = '<a href="' + data.message + '" target="_blank">' + data.message + '</a>';
+		data.message = striptags(data.message, "<a>");
+		
+		io.sockets.emit("chatnewmessage", data);
+	});
+
+	/* private chat message PHOTO*/
+	socket.on('chatmessageimg', function (data, callback) {
+		data.message = data.message.toLowerCase();
+		if ( utils.inSearch(EXTENSIONS, data.message) ) {
+			data.message = '<img src="' + data.message + '" width="200">';
+			data.message = striptags(data.message, "<img>");
+			
+			io.sockets.emit("chatnewmessage", data);
+		} else
+			callback({'imageError' : true });
+	});
 });
 
 server.listen(3000);

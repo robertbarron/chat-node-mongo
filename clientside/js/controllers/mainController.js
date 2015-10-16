@@ -32,11 +32,17 @@ mainController.prototype = {
 				if (user.nickname == undefined) {
 					loginController.loadLogin();
 				} else {
-					chatController.loadChat(user, function (response) {
-						if (response) {
-							$('body').addClass('chat-active');
-							chatController.messageListener();
-							chatController.newUserListener();
+					loginController.loadSavedUser(user, function (error, info, message, savedUser) {
+						if (savedUser) {
+							chatController.loadChat(user, function (response) {
+								if (response) {
+									$('body').addClass('chat-active');
+									chatController.messageListener();
+									chatController.newUserListener();
+								}
+							});
+						} else {
+							loginController.loadLogin();
 						}
 					});
 				}
