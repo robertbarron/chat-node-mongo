@@ -72,11 +72,9 @@ $('#chat-app').on('click', '#chat-view #chat-users .user', function (e) {
 
 		userObj.id_user  = click.data('id') || null;
 		userObj.nickname = click.find('.nickname').data('nickname') || null;
-		userObj.imageUrl   = click.find('.user-profile img').attr('src') || null;
+		userObj.imageUrl = click.find('.user-profile img').attr('src') || null;
 		userObj.phone    = click.data('phone') || null;
 		userObj.email    = click.data('email') || null;
-
-	chatWC.setUser({"id_user" : chatC.id_user, "nickname" : chatC.nickname});
 
 	if (!click.hasClass('me-class') )
 		chatWC.newConnection(userObj);

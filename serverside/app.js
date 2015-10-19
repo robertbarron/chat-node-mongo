@@ -333,13 +333,15 @@ io.sockets.on('connection', function (socket) {
    	socket.on('newconection', function (data, callback) {
    		var newData = {};
 
-   		newData.sender_id  = data.sender_id;
-		newData.receiver_id  = data.id_user;
-		newData.relation_id = uuid.v4();
-		callback(newData);
+		data.receiver_id  = data.id_user;
+		data.nickname     = data.nickname;
+		data.relation_id  = uuid.v4();
+		
+		callback(data);
 		User.findOne({'_id' : data.id_user}, function (err, user) {
-			if (user != null)
-				io.sockets.broadcast.to(user.socket_id).emit("conection", newData);
+			if (user != null) {
+				socket.broadcast.to(user.socket_id).emit('chatconnection', data);
+			}
 		});
 	});
    	/* private chat message */

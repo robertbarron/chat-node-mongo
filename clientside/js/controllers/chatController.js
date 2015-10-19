@@ -36,7 +36,7 @@ chatController.prototype = {
 
 	loadChat: function (userInfo, callback) {
 		var _this = this;
-
+		
 		this.render('templates/chat-view.html', $('#chat-app'), function (response) {
 			_this._setUserInfo(userInfo, function (response) {
 				if (response) {

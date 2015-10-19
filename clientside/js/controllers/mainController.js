@@ -34,6 +34,7 @@ mainController.prototype = {
 				} else {
 					loginController.loadSavedUser(user, function (error, info, message, savedUser) {
 						if (savedUser) {
+							chatWC.setUser(user);
 							chatController.loadChat(user, function (response) {
 								if (response) {
 									$('body').addClass('chat-active');

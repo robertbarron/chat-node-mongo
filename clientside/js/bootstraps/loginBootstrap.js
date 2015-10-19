@@ -43,6 +43,7 @@ $('#chat-app').on('click', '#login-submit', function (e) {
 				$clickEl.removeAttr('disabled');
 			},1000);
 		} else {
+			chatWC.setUser(loginC.getUser());
 			chatC.loadChat(loginC.getUser(), function (response) {
 				mainC._setLocalStorage(loginC.getUser());
 				if (response) {
