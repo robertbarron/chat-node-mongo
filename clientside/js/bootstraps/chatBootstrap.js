@@ -4,7 +4,7 @@ chatC.setModel(new chatModel());
 chatC.setTemplateManager(JPLoad);
 
 //When the user hit the enter key
-$('#chat-app').on('keydown', "#message", function (e) {
+$('#chat-app').on('keydown', "#comments-container #message", function (e) {
 	var key = e.which;
 	if (key == 13) {
 		if (e.shiftKey) {
@@ -18,7 +18,7 @@ $('#chat-app').on('keydown', "#message", function (e) {
 });  
 
 //When the user click on the submit button
-$('#chat-app').on('click', '#send-message', function (e) {
+$('#chat-app').on('click', '#comments-container #send-message', function (e) {
 	var $message = $("#chat-view #message");
 
 	if ($message.val().length < 2) {
@@ -52,14 +52,14 @@ $('#chat-app').on('click', '#nav-toggle', function (e) {
 });
 
 //send url
-$('#chat-app').on('click', '#send-url', function (e) {
+$('#chat-app').on('click', '#comments-container #send-url', function (e) {
 	var linkUrl = prompt('Escribe o pega el link que quieres enviar');
 	if (linkUrl.length > 5)
 		chatC.sendURL(linkUrl);
 });
 
 //send photo
-$('#chat-app').on('click', '#send-photo', function (e) {
+$('#chat-app').on('click', '#comments-container #send-photo', function (e) {
 	var photoUrl = prompt('Escribe o pega la url de la imagen que quieres enviar');
 	if (photoUrl.length > 5)
 		chatC.sendPhoto(photoUrl);
@@ -67,15 +67,17 @@ $('#chat-app').on('click', '#send-photo', function (e) {
 
 //click on an active user
 $('#chat-app').on('click', '#chat-view #chat-users .user', function (e) {
-	var click    = $(this),
-		userObj = {};
+	var click    = $(this);
+		// userObj = {};
 
-		userObj.id_user  = click.data('id') || null;
-		userObj.nickname = click.find('.nickname').data('nickname') || null;
-		userObj.imageUrl = click.find('.user-profile img').attr('src') || null;
-		userObj.phone    = click.data('phone') || null;
-		userObj.email    = click.data('email') || null;
+		// userObj.id_user  = click.data('id') || null;
+		// userObj.nickname = click.find('.nickname').data('nickname') || null;
+		// userObj.imageUrl = click.find('.user-profile img').attr('src') || null;
+		// userObj.phone    = click.data('phone') || null;
+		// userObj.email    = click.data('email') || null;
 
 	if (!click.hasClass('me-class') )
-		chatWC.newConnection(userObj);
+		chatWC.newConnection(chatWC.getContactInfo(click));
+		// chatWC.newConnection(userObj);
+
 });

@@ -258,6 +258,9 @@ app.get('/saveduser', function (req, res) {
 /* SOCKET COMMUNICATION */
 io.sockets.on('connection', function (socket) {
 /* MAIN EVENTS */
+
+	console.log("usuario conectado socket ID:" + socket.id);
+
 	socket.on('message', function (data) {
 		data.message = striptags(data.message);
 		io.sockets.emit("newmessage", data);
@@ -330,13 +333,14 @@ io.sockets.on('connection', function (socket) {
 
    	// ---------------------------------------------------------------
 /* INDIVIDUAL CHATS EVENTS */
+
    	socket.on('newconection', function (data, callback) {
    		var newData = {};
 
 		data.receiver_id  = data.id_user;
 		data.nickname     = data.nickname;
 		data.relation_id  = uuid.v4();
-		
+		data.socket_id    = socket.id;
 		callback(data);
 		User.findOne({'_id' : data.id_user}, function (err, user) {
 			if (user != null) {
@@ -345,17 +349,22 @@ io.sockets.on('connection', function (socket) {
 		});
 	});
    	/* private chat message */
-	socket.on('chatmessage', function (data) {
+	socket.on('chatmessage', function (data, callback) {
 		data.message = striptags(data.message);
-		io.sockets.emit("chatnewmessage", data);
+		User.findOne({'_id' : data.id_pal}, function (err, user) {
+			if (user != null) {
+				socket.broadcast.to(user.socket_id).emit('chatnewmessage', data);
+				callback(data);
+			}
+		});
 	});
 
 	/* private chat message URL*/
 	socket.on('chatmessageurl', function (data) {
 		data.message = '<a href="' + data.message + '" target="_blank">' + data.message + '</a>';
 		data.message = striptags(data.message, "<a>");
-		
-		io.sockets.emit("chatnewmessage", data);
+		socket.broadcast.to(data.socket_id).emit('chatnewmessage', data);
+		callback(data);
 	});
 
 	/* private chat message PHOTO*/
@@ -364,8 +373,9 @@ io.sockets.on('connection', function (socket) {
 		if ( utils.inSearch(EXTENSIONS, data.message) ) {
 			data.message = '<img src="' + data.message + '" width="200">';
 			data.message = striptags(data.message, "<img>");
+			callback(data);
 			
-			io.sockets.emit("chatnewmessage", data);
+			socket.broadcast.to(data.socket_id).emit('chatnewmessage', data);
 		} else
 			callback({'imageError' : true });
 	});

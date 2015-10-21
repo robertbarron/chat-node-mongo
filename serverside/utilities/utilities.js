@@ -52,12 +52,11 @@ utilities.responseJSON = function (response, data) {
 
 utilities.responseLogin = function (data) {
 	var newData = {
-		"id"      : data._id,
-		// "username": data.username,
-		"nickname": data.nickname,
-		"email"   : data.email,
-		"phone"   : data.phone,
-		"imageUrl": data.imageUrl
+		"id"        : data._id,
+		"nickname"  : data.nickname,
+		"email"     : data.email,
+		"phone"     : data.phone,
+		"imageUrl"  : data.imageUrl
 	};
 	return newData;
 };

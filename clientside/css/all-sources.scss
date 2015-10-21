@@ -335,6 +335,17 @@ body,html {
 		.chat-private {
 			#chat-container {
 				height: 400px;
+				margin: 10px 10px;
+				border-bottom: solid 1px #ccc;
+				.message {
+					display: inline-block;
+				}
+				.user-container {
+					display: inline-block;
+					font-weight: 900;
+					.isme {
+					}
+				}
 			}
 		}
 		.communication-area {

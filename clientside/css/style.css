@@ -266,7 +266,14 @@ body, html {
         #active-chat-windows .private-chat-window .header-chat .action-window .icon-action.icon-cancel-circled {
           font-size: 2.5em; }
   #active-chat-windows .private-chat-window .chat-private #chat-container {
-    height: 400px; }
+    height: 400px;
+    margin: 10px 10px;
+    border-bottom: solid 1px #ccc; }
+    #active-chat-windows .private-chat-window .chat-private #chat-container .message {
+      display: inline-block; }
+    #active-chat-windows .private-chat-window .chat-private #chat-container .user-container {
+      display: inline-block;
+      font-weight: 900; }
   #active-chat-windows .private-chat-window .communication-area {
     padding: 2%; }
     #active-chat-windows .private-chat-window .communication-area textarea#message {

@@ -14,14 +14,14 @@ $('#chat-app').on('click', '#active-chat-windows .private-chat-window .icon-canc
 });
 
 //When the user hit the enter key
-$('#chat-app').on('keydown', "#message", function (e) {
+$('#chat-app').on('keydown', "#active-chat-windows .private-chat-window #message", function (e) {
 	var key = e.which;
 	if (key == 13) {
 		if (e.shiftKey) {
         	e.preventDefault();
         	$(this).val( $(this).val() + '\n');
     	} else {
-			$('#chat-app #send-message').click();
+			$('#chat-app #active-chat-windows .private-chat-window #send-message').click();
 			return false;
 		}
 	}
@@ -41,7 +41,7 @@ $('#chat-app').on('click', '#active-chat-windows .private-chat-window #send-mess
 			$message.addClass("error");
 		} else {
 			$message.removeClass("error");
-			chatWC.sendMessage(uid, $message.val());
+			chatWC.sendMessage(uid, $message.val(), 'chatmessage');
 		}
 	}
 });
