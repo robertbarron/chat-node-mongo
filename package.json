@@ -8,7 +8,7 @@
     "node",
     "mongoose",
     "socket.io",
-    "sockets,"
+    "sockets",
     "socket"
   ],
   "author": "Robert Barron",
