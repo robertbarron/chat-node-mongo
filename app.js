@@ -6,7 +6,7 @@ var express = require('express'),
 
 	path = require('path'),
 	server = require('http').createServer(app),
-	io = require('socket.io').listen(server),
+	io = require('socket.io').listen(process.env.PORT || 5000),
 	mongoose = require('mongoose'),
 	striptags = require('striptags'),
 
