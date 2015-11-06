@@ -36,20 +36,20 @@ app.use(bodyParser.json());
 app.use(busboy());
 
 /* SERVER STATIC REPOSITORIES */
-app.use('/user_images', express.static('clientside/user_images/') );
-app.use('/static', express.static('clientside/js/') );
-app.use('/templates', express.static('clientside/templates/') );
-app.use('/css', express.static('clientside/css/') );
-app.use('/cssimages', express.static('clientside/cssimages/') );
-app.use('/vendors', express.static('clientside/vendors') );
-app.use('/foundation', express.static('node_modules/zurb-foundation-npm') );
+app.use('/user_images', express.static('./clientside/user_images/') );
+app.use('/static', express.static('./clientside/js/') );
+app.use('/templates', express.static('./clientside/templates/') );
+app.use('/css', express.static('./clientside/css/') );
+app.use('/cssimages', express.static('./clientside/cssimages/') );
+app.use('/vendors', express.static('./clientside/vendors') );
+app.use('/foundation', express.static('./node_modules/zurb-foundation-npm') );
 
 /* ROUTES */
 app.get('/', function(req, res) {
-	res.sendFile(path.resolve('clientside/index.html'));
+	res.sendFile(path.resolve('./clientside/index.html'));
 });
 app.get('/register', function(req, res) {
-	res.sendFile(path.resolve('clientside/index.html'));
+	res.sendFile(path.resolve('./clientside/index.html'));
 });
 /* API */
 	/* test if username is already taken*/
@@ -107,7 +107,7 @@ app.post('/tryupload/*', function(req, res) {
 		    req.pipe(req.busboy);
 		    req.busboy.on('file', function (fieldname, file, filename, encoding, mimetype) {
 		    	var filename = query._id + "." + utils.getExtension(mimetype),
-		    		filepath = 'clientside/user_images/' + filename;
+		    		filepath = './clientside/user_images/' + filename;
 
 		    	if ( utils.inSearch(EXTENSIONS, utils.getExtension(mimetype)) ) {
 			        fstream = fs.createWriteStream(filepath);
