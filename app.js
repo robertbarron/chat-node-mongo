@@ -4,15 +4,14 @@ var express = require('express'),
 	busboy = require('connect-busboy'),
 	fs = require('fs'),
 
-	path = require('path'),
 	server = require('http').createServer(app),
 	io = require('socket.io').listen(process.env.PORT || 5000),
 	mongoose = require('mongoose'),
 	striptags = require('striptags'),
 
     User = require('./serverside/dbfiles/user_model' ),
-    // connStr = 'mongodb://localhost:27017/chat-interno';
-    connStr = 'mongodb://herokuuser:herokupass@ds049864.mongolab.com:49864/heroku_2j38cs9s',
+    connStr = 'mongodb://localhost:27017/chat-interno';
+    // connStr = 'mongodb://herokuuser:herokupass@ds049864.mongolab.com:49864/heroku_2j38cs9s',
 	utils = require('./serverside/utilities/utilities'),
 	uuid = require('node-uuid'),
 	userList = [],
@@ -36,25 +35,20 @@ app.use(bodyParser.json());
 app.use(busboy());
 
 /* SERVER STATIC REPOSITORIES */
-app.use('/user_images', express.static('./clientside/user_images/') );
-app.use('/static', express.static('./clientside/js/') );
-app.use('/templates', express.static('./clientside/templates/') );
-app.use('/css', express.static('./clientside/css/') );
-app.use('/cssimages', express.static('./clientside/cssimages/') );
-app.use('/vendors', express.static('./clientside/vendors') );
-app.use('/foundation', express.static('./node_modules/zurb-foundation-npm') );
+// app.use('/user_images', express.static('./clientside/user_images/') );
+// app.use('/static', express.static('./clientside/js/') );
+// app.use('/templates', express.static('./clientside/templates/') );
+// app.use('/css', express.static('./clientside/css/') );
+// app.use('/cssimages', express.static('./clientside/cssimages/') );
+// app.use('/vendors', express.static('./clientside/vendors') );
+// app.use('/foundation', express.static('./node_modules/zurb-foundation-npm') );
 
 /* ROUTES */
 app.get('/', function(req, res) {
-	// res.sendFile(__dirname + '/clientside/index.html');
-	res.writeHead(200, {"Content-Type": "text/plain"});
-	res.write("It's alive!");
-	res.end();
-	console.log("ESTAMOS AQUI");
-	console.log(__dirname + '/clientside/index.html');
+	res.sendFile( __dirname + '/clientside/index.html');
 });
 app.get('/register', function(req, res) {
-	res.sendFile(__dirname + '/clientside/index.html');
+	res.sendFile( __dirname + '/clientside/index.html');
 });
 /* API */
 	/* test if username is already taken*/
