@@ -10,7 +10,7 @@ var express = require('express'),
 	mongoose = require('mongoose'),
 	striptags = require('striptags'),
 
-    User = require('./dbfiles/user-model'),
+    User = require('serverside/dbfiles/user-model'),
     // connStr = 'mongodb://localhost:27017/chat-interno';
     connStr = 'mongodb://heroku_2j38cs9s:heroku_2j38cs9s@ds049864.mongolab.com:49864/heroku_2j38cs9s',
 	utils = require(path.resolve('serverside/utilities/utilities') ),
