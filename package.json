@@ -14,7 +14,7 @@
   "author": "Robert Barron",
   "license": "MIT",
   "scripts": {
-    "app": "echo \"Error: no main specified\" && exit 1"
+    "start": "node app.js"
   },
   "dependencies": {
     "grunt": "^0.4.5",
