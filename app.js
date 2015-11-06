@@ -46,10 +46,10 @@ app.use('/foundation', express.static('./node_modules/zurb-foundation-npm') );
 
 /* ROUTES */
 app.get('/', function(req, res) {
-	res.sendFile(path.resolve('./clientside/index.html'));
+	res.sendFile(__dirname + '/clientside/index.html');
 });
 app.get('/register', function(req, res) {
-	res.sendFile(path.resolve('./clientside/index.html'));
+	res.sendFile(__dirname + '/clientside/index.html');
 });
 /* API */
 	/* test if username is already taken*/
