@@ -18,6 +18,7 @@
 			height: 90px;
 			border-bottom: solid 1px #ddd;
 			padding: 20px;
+			background-color: #008cba;
 			.user-profile {
 				float: left;
 				width: 50px;
@@ -55,29 +56,72 @@
 			}
 		}
 		.chat-private {
-			#chat-container {
+			#chat-container-private {
 				height: 400px;
 				margin: 10px 10px;
 				border-bottom: solid 1px #ccc;
-				.message {
-					display: inline-block;
-				}
-				.user-container {
-					display: inline-block;
-					font-weight: 900;
-					.isme {
+				min-height: 400px;
+				overflow-y: scroll;
+				.private-message {
+					display: block;
+					font-weight: 100;
+					line-height: 20px;
+					.user-container {
+						display: inline-block;
+						.user {
+							font-weight: 500;
+							&.isme {
+								font-weight: 900;
+							}
+							&.notme {
+								font-weight: 500;
+							}
+						}
+					}
+					.message-private {
+						display: inline-block;
+						font-weight: 100;
+						.image-container {
+							width: 170px;
+							height: 150px;
+							display: inline-block;
+							img {
+								width: 150px;
+							}
+							.close-img {
+								font-size: 20px;
+								color: black;
+								width: 20px;
+								position: relative;
+								display: inline-block;
+								float: right;
+								left: -20px;
+								padding-left: 4px;
+								height: 20px;
+								cursor: pointer;
+								&:hover {
+									background-color: black;
+									border-radius: 30px;
+									color: white;
+									opacity: 0.7;
+									line-height: 19px;
+									padding-left: 5px;
+								}
+							}
+						}
 					}
 				}
+				
 			}
 		}
 		.communication-area {
 			padding: 2%;
-			textarea#message {
-			width: 80%;
-			height: 50px;
-			resize: none;
-			margin: 0;
-			display: inline-block;
+			textarea#messagechat {
+				width: 80%;
+				height: 50px;
+				resize: none;
+				margin: 0;
+				display: inline-block;
 			}
 			.icon-action {
 				width: 5%;

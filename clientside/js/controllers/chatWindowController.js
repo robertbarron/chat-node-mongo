@@ -19,22 +19,30 @@ chatWindowController.prototype = {
 	},
 
 	_getContactByContainer : function (container) {
-		var user = {};
-		user.id_user  = container.data('id') || null;
-		user.nickname = container.find('.nickname').data('nickname') || null;
-		user.imageUrl = container.find('.user-profile img').attr('src') || null;
-		user.phone    = container.data('phone') || null;
-		user.email    = container.data('email') || null;
-		return user;
+		return {
+			'id_user'  : container.data('id') || null,
+			'nickname' : container.find('.nickname').data('nickname') || null,
+			'imageUrl' : container.find('.user-profile img').attr('src') || null,
+			'phone'    : container.data('phone') || null,
+			'email'    : container.data('email') || null
+		};
 	},
 
-	_getContactByUid : function (uid) {
-		var _this = this;
+	_getContactByUid : function (uid, callback) {
+		var _this = this,
+			user = {};
 		this._checkWindowByUid(uid, function (flag, container) {
-			if (container)
-				return _this._getContactByContainer(container);
-			else
-				return false;
+			if (flag) {
+				if (callback)
+					callback(_this._getContactByContainer(container));
+				else
+					return _this._getContactByContainer(container);
+			} else {
+				if (callback)
+					callback(false)
+				else
+					return false;
+			}
 		});
 	},
 
@@ -83,19 +91,30 @@ chatWindowController.prototype = {
 		}
 	},
 
+	_checkWindowByUserId: function (user_id, callback) {
+		var $chatContainer = $('#chat-app #chat-view #active-chat-windows .private-chat-window[data-id="' + user_id + '"]');
+
+		if ($chatContainer.length == 1)
+			callback(true, $chatContainer);
+		else
+			callback(false, false);
+	},
+
 	_checkWindowByUser: function (user, callback) {
 		var $chatContainer = $('#chat-app #chat-view #active-chat-windows .private-chat-window'),
 			uid = "",
+			id  = "",
 			nickname = "";
 
 		$.each($chatContainer, function (index, item) {
 			nickname = $(item).find('.info-user-chat .nickname').data('nickname');
 			if (nickname == user.nickname) {
+				id  = $(item).data('id');
 				uid = $(item).data('uid');
 			}
 		}).promise().done( function () {
 			if (uid.length > 5) {
-				callback(true, uid);
+				callback(true, uid, id);
 			} else {
 				callback(false, false);
 			}
@@ -118,21 +137,24 @@ chatWindowController.prototype = {
 			return false;
 	},
 
-	_showWindow: function (uid) {
+	_showWindow: function (id) {
 		$('#chat-app #active-chat-windows').addClass('active');
-		$('#chat-app #chat-view #active-chat-windows .private-chat-window[data-uid="' + uid +'"]').show();
+		$('#chat-app #chat-view #active-chat-windows .private-chat-window[data-id="' + id +'"]').show();
+		barC.showWindow(id);
 	},
 
 	_hideWindow : function (uid) {
-		$('#chat-app #chat-view #active-chat-windows .private-chat-window[data-uid="' + uid +'"]').hide();	
+		$('#chat-app #chat-view #active-chat-windows .private-chat-window[data-uid="' + uid +'"]').hide();
 	},
 
 	createWindow : function (user, callback) {
 		var template       = 'templates/chat-individual/private-chat-window.html',
-			$chatContainer = $('#chat-app #chat-view #active-chat-windows');
+			$chatContainer = $('#chat-app #chat-view #active-chat-windows'),
+			_this = this;
 
 		$('#chat-app #active-chat-windows').addClass('active');
 		this.renderPrivateWindow($chatContainer, user, function (response) {
+			_this.addBarUser(user);
 			if (callback)
 				callback(true);	
 		});
@@ -148,7 +170,7 @@ chatWindowController.prototype = {
 	newConnection : function (user) {
 		var _this = this;
 
-		this._checkWindowByUser(user, function (found, uid) {
+		this._checkWindowByUser(user, function (found, uid, id) {
 			if (!found) {
 				_this._createConnection('newconection', user, function (response) {
 					if (response.relation_id) {
@@ -157,7 +179,7 @@ chatWindowController.prototype = {
 					}
 				});
 			} else {
-				_this._showWindow(uid);
+				_this._showWindow(id);
 			}
 		});
 	},
@@ -175,26 +197,19 @@ chatWindowController.prototype = {
 			user;
 
 		this.model.listenNewMessage(function (response) {
-			console.log("mensaje recibido");
-			console.log(response);
 			if (response.uid) {
-				_this._checkWindowByUid(response.uid, function (found, container) {
+				_this._checkWindowByUserId(response.id_user, function (found, container) {
 					if (found) {
 						contact = _this._constructIncomingMessage(response, response);
 						_this.renderIncomingMessage(response);
 						if (!_this._isOpen(container))
-							_this._showWindow(response.uid);
+							_this._showWindow(response.sender_id);
 					} else {
-						user = _this.getContactInfo(undefined, response.uid, undefined);
-						if (!user) {
-							_this._getContactById(response.sender_id, function (contact) {
-								contact = _this._constructIncomingMessage(contact, response);
-								_this.createWindow(contact, function (response) {
-									if (response)
-										_this.renderIncomingMessage(contact);
-								});
-							});
-						}
+						contact = _this._constructIncomingMessage(response, response);
+						_this.createWindow(contact, function (response) {
+							if (response)
+								_this.renderIncomingMessage(contact);
+						});
 					}
 				});
 			}
@@ -202,27 +217,31 @@ chatWindowController.prototype = {
 	},
 	_constructIncomingMessage: function (user, data) {
 		user.message     = data.message;
-		user.relation_id = data.uid;
+		user.relation_id = data.uid || data.relation_id;
 		user.isme        = 'notme';
+
 		return user;
 	},
 
 	_constructMessage: function (uid, message, callback) {
-		var _this = this,
-			user  = this._getContactByUid(uid);
-		debugger;
-		if (!found) {
-			//Enviar Error
-		} else {
-			info.message = message;
-			console.log(info);
-			callback(info);
-		}
+		var _this = this;
+		
+		this._getContactByUid(uid, function (user) {
+			if (user) {
+				user.nickname = _this.model.nickname;
+				user.message  = message;
+				user.uid      = uid;
+				user.isme     = "isme";
+				callback(user);
+			} else {
+				callback(false);
+			}
+		});
 	},
 
 	_cleanContainer: function (container) {
 		if (container)
-			container.find('#message').val('');
+			container.find('#messagechat').val('');
 	},
 
 	sendMessage: function (uid, message, messagetype) {
@@ -230,17 +249,41 @@ chatWindowController.prototype = {
 			messagetype  = messagetype ? messagetype : 'chatmessage';
 
 		this._constructMessage(uid, message, function (new_message) {
-			console.log("new message");
-			console.log(new_message);
 			_this.model.broadcastMessage(messagetype, new_message, function (messagepacket) {
-				console.log("messagepacket");
-				console.log(messagepacket);
 				if (messagepacket) {
 					messagepacket.isme = 'isme';
 					_this.renderPrivateMessage(messagepacket);
 				}
 			});	
 		});
+	},
+
+	_isValidURL: function (URL) {
+    	return /^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test(URL);
+	},
+
+	sendURL : function (uid, URL) {
+		if (this._isValidURL(URL)) {
+			this.sendMessage(uid, URL, "chatmessageurl", function (response) {
+				this._cleanContainer();
+			});
+		}
+	},
+
+	sendPhoto : function (uid, photoURL) {
+		var _this = this;
+		if (this._isValidURL(photoURL)) {
+			this.sendMessage(uid, photoURL, "chatmessageimg", function (response) {
+				_this._cleanContainer();
+				if (response.imageError) {
+					_this.renderErrorMessage({'message': 'Formato de imagen no soportado'});
+				}
+			});
+		}
+	},
+
+	addBarUser : function (user) {
+		barC.addUser(user);
 	},
 
 	render: function (template, idSection, data, callback) {
@@ -255,32 +298,53 @@ chatWindowController.prototype = {
 		});
 	},
 
+	append: function (template, idSection, data, callback) {
+		var _this = this;
+
+		this.templateManager.getView(template, function (response) {
+			if (response) {
+				_this.templateManager.$appendView(response, idSection, data);
+				if (callback)
+					callback(true);
+			}
+		});
+	},
+
 	renderIncomingMessage: function (packet) {
 		var _this = this,
-			template = "templates/chat-individual/user-message.html";
-		this._checkWindowByUid(packet.relation_id, function (flag, container) {
-			debugger;
-			_this._cleanContainer(container);
+			template = "templates/chat-individual/user-message.html",
+			$id;
 
-			container = container.find('#chat-container');
-			_this.templateManager.getView(template, function (response) {
-				if (response)
-					_this.templateManager.$appendView(response, container, packet);
-			});
+		this._checkWindowByUserId(packet.id_user, function (flag, container) {
+			if (flag) {
+				_this._cleanContainer(container);
+				container = container.find('#chat-container-private');
+				_this.templateManager.getView(template, function (response) {
+					if (response) {
+						$id = container.find('#chat-container-private');
+						_this.templateManager.$appendView(response, container, packet);
+						$id.animate({ scrollTop: $id.height() }, 'slow');
+					}
+				});
+			}
 		});
 	},
 
 	renderPrivateMessage: function (packet) {
 		var _this = this,
-			template = "templates/chat-individual/user-message.html";
+			template = "templates/chat-individual/user-message.html",
+			$id;
 
 		this._checkWindowByUid(packet.uid, function (flag, container) {
 			_this._cleanContainer(container);
 
-			container = container.find('#chat-container');
+			container = container.find('#chat-container-private');
 			_this.templateManager.getView(template, function (response) {
-				if (response)
+				if (response) {
+					$id = container.find('#chat-container-private');
 					_this.templateManager.$appendView(response, container, packet);
+					$id.animate({ scrollTop: $id.height() }, 'slow');	
+				}
 			});
 		});
 	},

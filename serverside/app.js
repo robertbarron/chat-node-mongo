@@ -258,9 +258,6 @@ app.get('/saveduser', function (req, res) {
 /* SOCKET COMMUNICATION */
 io.sockets.on('connection', function (socket) {
 /* MAIN EVENTS */
-
-	console.log("usuario conectado socket ID:" + socket.id);
-
 	socket.on('message', function (data) {
 		data.message = striptags(data.message);
 		io.sockets.emit("newmessage", data);
@@ -278,6 +275,7 @@ io.sockets.on('connection', function (socket) {
 		if ( utils.inSearch(EXTENSIONS, data.message) ) {
 			data.message = '<img src="' + data.message + '" width="200">';
 			data.message = striptags(data.message, "<img>");
+			data.message = '<div class="image-container">' + data.message + '<div class="close-img">&times;</div></div>';
 			
 			io.sockets.emit("newmessage", data);
 		} else
@@ -351,8 +349,11 @@ io.sockets.on('connection', function (socket) {
    	/* private chat message */
 	socket.on('chatmessage', function (data, callback) {
 		data.message = striptags(data.message);
-		User.findOne({'_id' : data.id_pal}, function (err, user) {
+		User.findOne({'_id' : data.id_user}, function (err, user) {
+			if (err)
+				throw err;
 			if (user != null) {
+				data.id_user  = data.sender_id;
 				socket.broadcast.to(user.socket_id).emit('chatnewmessage', data);
 				callback(data);
 			}
@@ -360,22 +361,37 @@ io.sockets.on('connection', function (socket) {
 	});
 
 	/* private chat message URL*/
-	socket.on('chatmessageurl', function (data) {
+	socket.on('chatmessageurl', function (data, callback) {
 		data.message = '<a href="' + data.message + '" target="_blank">' + data.message + '</a>';
 		data.message = striptags(data.message, "<a>");
-		socket.broadcast.to(data.socket_id).emit('chatnewmessage', data);
-		callback(data);
+
+		User.findOne({'_id' : data.id_user}, function (err, user) {
+			if (err)
+				throw err;
+			if (user != null) {
+				data.id_user  = data.sender_id;
+				socket.broadcast.to(user.socket_id).emit('chatnewmessage', data);
+				callback(data);
+			}
+		});
 	});
 
 	/* private chat message PHOTO*/
 	socket.on('chatmessageimg', function (data, callback) {
 		data.message = data.message.toLowerCase();
 		if ( utils.inSearch(EXTENSIONS, data.message) ) {
-			data.message = '<img src="' + data.message + '" width="200">';
+			data.message = '<img src="' + data.message + '" width="150">';
 			data.message = striptags(data.message, "<img>");
-			callback(data);
-			
-			socket.broadcast.to(data.socket_id).emit('chatnewmessage', data);
+			data.message = '<div class="image-container">' + data.message + '<div class="close-img">&times;</div></div>';
+			User.findOne({'_id' : data.id_user}, function (err, user) {
+				if (err)
+					throw err;
+				if (user != null) {
+					data.id_user  = data.sender_id;
+					socket.broadcast.to(user.socket_id).emit('chatnewmessage', data);
+					callback(data);
+				}
+			});
 		} else
 			callback({'imageError' : true });
 	});

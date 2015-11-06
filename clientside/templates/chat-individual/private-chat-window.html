@@ -1,4 +1,4 @@
-<div class="private-chat-window" data-uid="{{relation_id}}">
+<div class="private-chat-window" data-uid="{{relation_id}}" data-id="{{id_user}}" data-nickname="{{nickname}}"  data-phone="{{phone}}"  data-email="{{email}}">
 	<div class="header-chat">
 		<div class="user-profile"><img src="{{imageUrl}}" /></div>
 		<div class="info-user-chat">
@@ -11,10 +11,10 @@
 		</div>
 	</div>
 	<div class="chat-private">
-		<div id="chat-container"></div>
+		<div id="chat-container-private"></div>
 	</div>
 	<div class="communication-area">
-		<textarea id="message" class="input-text" placeholder="Enter your message"></textarea>
+		<textarea id="messagechat" class="input-text" placeholder="Enter your message"></textarea>
 		<div id="send-message" class="button icon-paper-plane-empty icon-action"></div>
 		<div id="send-url" class="icon-attach-1 icon-action button secondary"></div>
 		<div id="send-photo" class="icon-camera icon-action button secondary"></div>

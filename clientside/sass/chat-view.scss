@@ -1,17 +1,21 @@
 body,html {
 	height: 100%;
 	width: 100%;
+	font-family: 'Roboto', sans-serif;
 	&.chat-active {
 		background-color: #f2f2f2;
 		overflow: hidden;
 	}
 }
-	
+#chat-app {
+	height: 100%;
+}
 #chat-view {
 	margin-top: 0px;
-	padding-top: 50px;
-	min-height: 800px;
+	padding-top: 0px;
+	height: 100%;
 	#users-container {
+		height: 100%;
 		h3 {
 			text-align: center;
 			border-bottom: 1px solid #ccc;
@@ -56,25 +60,10 @@ body,html {
 			}
 		}
 	}
-	#private-container {
-		margin-left: -1000px;
-		position: relative;
-		z-index: 4;
-		float: left;
-		transition: all 200ms ease;
-		&.open {
-			margin-left: 0;
-			position: relative;
-			left: 0;
-			height: 100%;
-			overflow-y: scroll;
-			overflow-x: hidden;
-			transition: all 200ms ease;
-		}
-	}
-
+	
 	#comments-container {
 		transition: all 200ms ease-in-out;
+		height: 100%;
 		#nav-toggle {
 			cursor: pointer;
 			padding: 17px 41px 22px 5px;
@@ -128,10 +117,12 @@ body,html {
 		  		}
 			}
 		}
+		> .collapse {
+			height: 80%;
+		}
 		#chat-container {
-			min-height: 800px;
 			width: 100%;
-			max-height: 800px;
+			height: 100%;
 			overflow-y: scroll;
 			border:1px solid #ccc;
 			background: white;
@@ -151,6 +142,37 @@ body,html {
 						max-width: 320px;
 						text-overflow: ellipsis;
 						white-space: nowrap;
+					}
+				}
+				.message {
+					line-height: 20px;
+					.image-container {
+						width: 170px;
+						height: 150px;
+						display: inline-block;
+						img {
+							width: 150px;
+						}
+						.close-img {
+							font-size: 20px;
+							color: black;
+							width: 20px;
+							position: relative;
+							display: inline-block;
+							float: right;
+							left: -20px;
+							padding-left: 4px;
+							height: 20px;
+							cursor: pointer;
+							&:hover {
+								background-color: black;
+								border-radius: 30px;
+								color: white;
+								opacity: 0.7;
+								line-height: 19px;
+								padding-left: 5px;
+							}
+						}
 					}
 				}
 			}

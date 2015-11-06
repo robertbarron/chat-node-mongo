@@ -8,13 +8,14 @@ chatWC.newMessageListener();
 
 $('#chat-app').on('click', '#active-chat-windows .private-chat-window .icon-cancel-circled', function (e) {
 	var $click = $(this);
-
 	$click.closest('#active-chat-windows').removeClass("active");
 	$click.closest('.private-chat-window').hide();
+	
+	barC.hideWindow( $click.closest('.private-chat-window').data('uid'));
 });
 
 //When the user hit the enter key
-$('#chat-app').on('keydown', "#active-chat-windows .private-chat-window #message", function (e) {
+$('#chat-app').on('keydown', "#active-chat-windows .private-chat-window #messagechat", function (e) {
 	var key = e.which;
 	if (key == 13) {
 		if (e.shiftKey) {
@@ -30,7 +31,7 @@ $('#chat-app').on('keydown', "#active-chat-windows .private-chat-window #message
 //When the user click on the submit button
 $('#chat-app').on('click', '#active-chat-windows .private-chat-window #send-message', function (e) {
 	var $click = $(this),
-		$message = $click.closest('.private-chat-window').find('#message'),
+		$message = $click.closest('.private-chat-window').find('#messagechat'),
 		uid      = $click.closest('.private-chat-window').data('uid');
 
 	if ($message.val().length < 2) {
@@ -48,14 +49,20 @@ $('#chat-app').on('click', '#active-chat-windows .private-chat-window #send-mess
 
 //send url
 $('#chat-app').on('click', '#active-chat-windows .private-chat-window #send-url', function (e) {
-	var linkUrl = prompt('Escribe o pega el link que quieres enviar');
+	var $click  = $(this),
+		uid     = $click.closest('.private-chat-window').data('uid'),
+		linkUrl = prompt('Escribe o pega el link que quieres enviar');
+	
 	if (linkUrl.length > 5)
-		chatC.sendURL(linkUrl);
+		chatWC.sendURL(uid, linkUrl);
 });
 
 //send photo
 $('#chat-app').on('click', '#active-chat-windows .private-chat-window #send-photo', function (e) {
-	var photoUrl = prompt('Escribe o pega la url de la imagen que quieres enviar');
+	var $click   = $(this),
+		uid      = $click.closest('.private-chat-window').data('uid'),
+		photoUrl = prompt('Escribe o pega la url de la imagen que quieres enviar');
+		
 	if (photoUrl.length > 5)
-		chatC.sendPhoto(photoUrl);
+		chatWC.sendPhoto(uid, photoUrl);
 });

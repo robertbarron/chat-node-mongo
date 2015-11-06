@@ -1,0 +1,76 @@
+#user-bar {
+	margin-left: -1000px;
+	position: relative;
+	z-index: 4;
+	float: left;
+	transition: all 200ms ease;
+	background-color: #008cba;
+	&.open {
+		margin-left: 0;
+		position: relative;
+		left: 0;
+		height: 100%;
+		overflow-y: scroll;
+		overflow-x: hidden;
+		transition: all 200ms ease;
+	}
+	&.animate {
+		margin-left: -100px;
+		transition: all 200ms ease;
+	}
+	h3 {
+		color: #fff;
+		padding-top: 2px;
+		border-bottom: 1px solid #333;
+		text-align: center;
+		padding-bottom: 10px;
+	}
+	#bar {
+		.user {
+			height: 50px;
+			border-bottom: solid 1px #ccc;
+			cursor: pointer;
+			padding-left: 10px;
+			.user-container {
+				height: 100%;
+				.user-profile {
+					height: 50px;
+					width: 40px;
+					display: inline-block;
+					margin-right: 10px;
+					line-height: 35px;
+					padding: 5px;
+					img {
+						border-radius: 40px;
+						width: 100%;
+					}
+				}
+				.user-nickname {
+					font-weight: 100;
+					font-size: 1.2em;
+					display: inline-block;
+					color: #fff;
+				}
+			}
+			&.active {
+				box-shadow: inset 1px 0px 2px #000;
+				border: 0;
+			}
+			&.animate {
+				margin-left: -100px;
+				transition: all 200ms ease;
+				position: relative;
+			}
+			&:hover {
+				background-color: #b7b7b7;
+				.user-container {
+					.user-nickname {
+						font-weight: 500;
+						color: #333;
+					}
+				}
+			}
+		}
+
+	}
+}

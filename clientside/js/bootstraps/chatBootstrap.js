@@ -34,10 +34,17 @@ $('#chat-app').on('click', '#comments-container #send-message', function (e) {
 	}
 });
 
+//When the user clic on an close image
+$('#chat-app').on('click', "#chat-view #chat-container .user-message-normal .close-img", function (e) {
+	var $click = $(this);
+
+	$click.closest('.user-message-normal').remove();
+});  
+
 // click on the menu
 $('#chat-app').on('click', '#nav-toggle', function (e) {
 	var click = $(this),
-		privateWindows = $('#chat-app #private-container'),
+		privateWindows = $('#chat-app #user-bar'),
 		chatContaner = $('#chat-app .comments-container');
 	if ($(this).hasClass("active") ) {
 		$(this).removeClass("active");
@@ -68,14 +75,7 @@ $('#chat-app').on('click', '#comments-container #send-photo', function (e) {
 //click on an active user
 $('#chat-app').on('click', '#chat-view #chat-users .user', function (e) {
 	var click    = $(this);
-		// userObj = {};
-
-		// userObj.id_user  = click.data('id') || null;
-		// userObj.nickname = click.find('.nickname').data('nickname') || null;
-		// userObj.imageUrl = click.find('.user-profile img').attr('src') || null;
-		// userObj.phone    = click.data('phone') || null;
-		// userObj.email    = click.data('email') || null;
-
+	
 	if (!click.hasClass('me-class') )
 		chatWC.newConnection(chatWC.getContactInfo(click));
 		// chatWC.newConnection(userObj);
