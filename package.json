@@ -13,6 +13,9 @@
   ],
   "author": "Robert Barron",
   "license": "MIT",
+  "scripts": {
+    "app": "echo \"Error: no main specified\" && exit 1"
+  },
   "dependencies": {
     "grunt": "^0.4.5",
     "load-grunt-tasks": "^3.1.0"
