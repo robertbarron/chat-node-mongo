@@ -10,10 +10,10 @@ var express = require('express'),
 	mongoose = require('mongoose'),
 	striptags = require('striptags'),
 
-    User = require('serverside/dbfiles/user-model'),
+    User = require(path.resolve('serverside/dbfiles/user-model.js') ),
     // connStr = 'mongodb://localhost:27017/chat-interno';
     connStr = 'mongodb://heroku_2j38cs9s:heroku_2j38cs9s@ds049864.mongolab.com:49864/heroku_2j38cs9s',
-	utils = require(path.resolve('serverside/utilities/utilities') ),
+	utils = require(path.resolve('serverside/utilities/utilities.js') ),
 	uuid = require('node-uuid'),
 	userList = [],
 	MAX_TRIES = 5,
