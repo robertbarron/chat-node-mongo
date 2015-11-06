@@ -1,7 +1,18 @@
 {
-  "name": "ChatTest",
+  "name": "ChatInterno",
   "version": "0.0.1",
   "description": "Este proyecto personaliza los temas CSS utilizados por el toolkit Dojo, con el objetivo de implementar una experiencia de usuario apegada a la guia de estilos de BANORTE e IXE",
+  "main": "app.js",
+  "keywords": [
+    "mongodb",
+    "node",
+    "mongoose",
+    "socket.io",
+    "sockets,"
+    "socket"
+  ],
+  "author": "Robert Barron",
+  "license": "MIT",
   "dependencies": {
     "grunt": "^0.4.5",
     "load-grunt-tasks": "^3.1.0"
