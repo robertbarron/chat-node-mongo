@@ -35,17 +35,20 @@ app.use(bodyParser.json());
 app.use(busboy());
 
 /* SERVER STATIC REPOSITORIES */
-// app.use('/user_images', express.static('./clientside/user_images/') );
-// app.use('/static', express.static('./clientside/js/') );
-// app.use('/templates', express.static('./clientside/templates/') );
-// app.use('/css', express.static('./clientside/css/') );
-// app.use('/cssimages', express.static('./clientside/cssimages/') );
-// app.use('/vendors', express.static('./clientside/vendors') );
-// app.use('/foundation', express.static('./node_modules/zurb-foundation-npm') );
+app.use('/user_images', express.static(__dirname + './clientside/user_images/') );
+app.use('/static', express.static(__dirname + './clientside/js/') );
+app.use('/templates', express.static(__dirname + './clientside/templates/') );
+app.use('/css', express.static(__dirname + './clientside/css/') );
+app.use('/cssimages', express.static(__dirname + './clientside/cssimages/') );
+app.use('/vendors', express.static(__dirname + './clientside/vendors') );
+app.use('/foundation', express.static(__dirname + './node_modules/zurb-foundation-npm') );
 
 /* ROUTES */
 app.get('/', function(req, res) {
-	res.sendFile( __dirname + '/clientside/index.html');
+	// res.sendFile( __dirname + '/clientside/index.html');
+	res.writeHead(404, {"Content-type" : "text/plain"});
+	res.write("Error 404: resource not found");
+	res.end();
 });
 app.get('/register', function(req, res) {
 	res.sendFile( __dirname + '/clientside/index.html');
