@@ -50,6 +50,8 @@ app.get('/', function(req, res) {
 	res.writeHead(200, {"Content-Type": "text/plain"});
 	res.write("It's alive!");
 	res.end();
+	console.log("ESTAMOS AQUI");
+	console.log(__dirname + '/clientside/index.html');
 });
 app.get('/register', function(req, res) {
 	res.sendFile(__dirname + '/clientside/index.html');
