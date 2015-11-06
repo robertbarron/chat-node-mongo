@@ -46,7 +46,10 @@ app.use('/foundation', express.static('./node_modules/zurb-foundation-npm') );
 
 /* ROUTES */
 app.get('/', function(req, res) {
-	res.sendFile(__dirname + '/clientside/index.html');
+	// res.sendFile(__dirname + '/clientside/index.html');
+	res.writeHead(200, {"Content-Type": "text/plain"});
+	res.write("It's alive!");
+	res.end();
 });
 app.get('/register', function(req, res) {
 	res.sendFile(__dirname + '/clientside/index.html');
