@@ -12,7 +12,7 @@ var express = require('express'),
 
     User = require('./dbfiles/user-model'),
     // connStr = 'mongodb://localhost:27017/chat-interno';
-    connStr = 'mongodb://heroku_2j38cs9s:heroku_2j38cs9s@ds049864.mongolab.com:49864/heroku_2j38cs9s';
+    connStr = 'mongodb://heroku_2j38cs9s:heroku_2j38cs9s@ds049864.mongolab.com:49864/heroku_2j38cs9s',
 	utils = require(path.resolve('./utilities/utilities') ),
 	uuid = require('node-uuid'),
 	userList = [],
