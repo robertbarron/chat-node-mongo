@@ -6,7 +6,7 @@ var express = require('express'),
 
 	router = express.Router(),
 	server = require('http').createServer(app),
-	io = require('socket.io').listen(process.env.PORT || 5000),
+	io = require('socket.io').listen(server),
 	mongoose = require('mongoose'),
 	striptags = require('striptags'),
 
@@ -410,4 +410,4 @@ io.sockets.on('connection', function (socket) {
 	});
 });
 
-server.listen(3000);
+server.listen(process.env.PORT || 5000);
