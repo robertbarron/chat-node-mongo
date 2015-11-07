@@ -24,6 +24,11 @@ mongoose.connect(connStr, function(err) {
     console.log("Successfully connected to MongoDB");
 });
 
+console.log("PROCESOS:");
+console.log(process.env.MONGOLAB_URI);
+console.log("_____________");
+console.log(process.env);
+console.log("_____________");
 
 /* PARSEADOR DE REQUESTS */
 app.use(bodyParser.urlencoded({
