@@ -7,10 +7,7 @@ var express = require('express'),
 	io = require('socket.io').listen(server),
 	mongoose = require('mongoose'),
 	striptags = require('striptags'),
-
     User = require('./serverside/dbfiles/user_model' ),
-    // connStr = 'mongodb://localhost:27017/chat-interno';
-    // connStr = 'mongodb://herokuuser:herokupass@ds049864.mongolab.com:49864/heroku_2j38cs9s',
     connStr = process.env.MONGOLAB_URI,
 	utils = require('./serverside/utilities/utilities'),
 	uuid = require('node-uuid'),
@@ -23,12 +20,6 @@ mongoose.connect(connStr, function(err) {
     if (err) throw err;
     console.log("Successfully connected to MongoDB");
 });
-
-console.log("PROCESOS:");
-console.log(process.env.MONGOLAB_URI);
-console.log("_____________");
-console.log(process.env);
-console.log("_____________");
 
 /* PARSEADOR DE REQUESTS */
 app.use(bodyParser.urlencoded({
