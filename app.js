@@ -46,9 +46,7 @@ app.use('/foundation', express.static(__dirname + './node_modules/zurb-foundatio
 /* ROUTES */
 app.get('/', function(req, res) {
 	// res.sendFile( __dirname + '/clientside/index.html');
-	res.writeHead(404, {"Content-type" : "text/plain"});
-	res.write("Error 404: resource not found");
-	res.end();
+	res.send("WARA WARA");
 });
 app.get('/register', function(req, res) {
 	res.sendFile( __dirname + '/clientside/index.html');
