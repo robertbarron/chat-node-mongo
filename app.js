@@ -4,6 +4,7 @@ var express = require('express'),
 	busboy = require('connect-busboy'),
 	fs = require('fs'),
 
+	router = express.Router(),
 	server = require('http').createServer(app),
 	io = require('socket.io').listen(process.env.PORT || 5000),
 	mongoose = require('mongoose'),
@@ -44,6 +45,11 @@ app.use('/vendors', express.static(__dirname + './clientside/vendors') );
 app.use('/foundation', express.static(__dirname + './node_modules/zurb-foundation-npm') );
 
 /* ROUTES */
+router.get('/', function(req, res) {
+	// res.sendFile( __dirname + '/clientside/index.html');
+	res.send("WARA WARA");
+});
+
 app.get('/', function(req, res) {
 	// res.sendFile( __dirname + '/clientside/index.html');
 	res.send("WARA WARA");
