@@ -10,7 +10,8 @@ var express = require('express'),
 
     User = require('./serverside/dbfiles/user_model' ),
     // connStr = 'mongodb://localhost:27017/chat-interno';
-    connStr = 'mongodb://herokuuser:herokupass@ds049864.mongolab.com:49864/heroku_2j38cs9s',
+    // connStr = 'mongodb://herokuuser:herokupass@ds049864.mongolab.com:49864/heroku_2j38cs9s',
+    connStr = process.env.MONGOLAB_URI,
 	utils = require('./serverside/utilities/utilities'),
 	uuid = require('node-uuid'),
 	userList = [],
