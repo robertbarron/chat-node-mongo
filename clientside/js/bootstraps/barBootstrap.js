@@ -11,4 +11,6 @@ $('#chat-app').on('click', '#chat-view #user-bar #bar .user', function (e) {
 		barC.hideWindow(uid, true);
 	else
 		barC.showWindow(id, true);
+
+	$('#chat-app #nav-toggle').click();
 });

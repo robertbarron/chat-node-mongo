@@ -58,6 +58,37 @@ $('#chat-app').on('click', '#nav-toggle', function (e) {
 	}
 });
 
+// click on the user list active toggle (only mobile)
+$('#chat-app').on('click', '#comments-container #users-bar-toggle', function (e) {
+	var click = $(this),
+		privateWindows = $('#chat-app #users-container'),
+		chatContaner = $('#chat-app .comments-container');
+
+	privateWindows.addClass("open");
+	chatContaner.removeClass("large-10").addClass("large-8");
+});
+
+// click inside the user list active toogle (only mobile)
+$('#chat-app').on('click', '#users-container #users-list-toggle', function (e) {
+	var privateWindows = $('#chat-app #users-container'),
+		chatContaner = $('#chat-app .comments-container');
+
+	privateWindows.removeClass("open");
+	chatContaner.addClass("large-10").removeClass("large-8");
+});
+
+// click inside the bar toogle (only mobile)
+$('#chat-app').on('click', '#bar-toggle', function (e) {
+	var privateWindows = $('#chat-app #user-bar'),
+		chatContaner = $('#chat-app .comments-container');
+
+	privateWindows.removeClass("open");
+	chatContaner.removeClass("large-10").addClass("large-8");
+
+	var nav = $('#chat-app #nav-toggle');
+	nav.removeClass('active');
+});
+
 //send url
 $('#chat-app').on('click', '#comments-container #send-url', function (e) {
 	var linkUrl = prompt('Escribe o pega el link que quieres enviar');
@@ -76,8 +107,9 @@ $('#chat-app').on('click', '#comments-container #send-photo', function (e) {
 $('#chat-app').on('click', '#chat-view #chat-users .user', function (e) {
 	var click    = $(this);
 	
-	if (!click.hasClass('me-class') )
+	if (!click.hasClass('me-class') ) {
 		chatWC.newConnection(chatWC.getContactInfo(click));
+		$('#users-container #users-list-toggle').click();
+	}
 		// chatWC.newConnection(userObj);
-
 });

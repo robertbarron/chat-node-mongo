@@ -13,6 +13,49 @@
 		overflow-y: scroll;
 		overflow-x: hidden;
 		transition: all 200ms ease;
+		#bar-toggle {
+			cursor: pointer;
+			padding: 17px 41px 22px 5px;
+			display: inline-block;
+			span {
+				cursor: pointer;
+				border-radius: 1px;
+				height: 5px;
+				width: 35px;
+				// background: #ffffff;
+				position: absolute;
+				display: block;
+				content: "";
+				transition: all 500ms ease-in-out;
+				background-color: transparent;
+				&:before {
+					cursor: pointer;
+					border-radius: 1px;
+					height: 5px;
+					width: 35px;
+					background: #ffffff;
+					position: absolute;
+					display: block;
+					content: "";
+					transition: all 500ms ease-in-out;
+					top: 0;
+		  			transform: rotate(45deg);
+				}
+				&:after {
+					cursor: pointer;
+					border-radius: 1px;
+					height: 5px;
+					width: 35px;
+					background: #ffffff;
+					position: absolute;
+					display: block;
+					content: "";
+					transition: all 500ms ease-in-out;
+					bottom: 0;
+		  			transform: rotate(-45deg);
+				}
+			}
+		}
 	}
 	&.animate {
 		margin-left: -100px;
@@ -21,9 +64,11 @@
 	h3 {
 		color: #fff;
 		padding-top: 2px;
-		border-bottom: 1px solid #333;
+		border-bottom: 0;
 		text-align: center;
 		padding-bottom: 10px;
+		width: 90%;
+		display: inline-block;
 	}
 	#bar {
 		.user {
@@ -72,5 +117,139 @@
 			}
 		}
 
+	}
+}
+@media screen and (min-width: 1000px) {
+	#user-bar {
+		margin-left: -1000px;
+		position: relative;
+		z-index: 4;
+		float: left;
+		transition: all 200ms ease;
+		background-color: #008cba;
+		&.open {
+			margin-left: 0;
+			position: relative;
+			left: 0;
+			height: 100%;
+			overflow-y: scroll;
+			overflow-x: hidden;
+			transition: all 200ms ease;
+			#bar-toggle {
+				display: none;
+			}
+			#nav-toggle {
+				cursor: pointer;
+				padding: 17px 41px 22px 5px;
+				display: inline-block;
+				span {
+					cursor: pointer;
+					border-radius: 1px;
+					height: 5px;
+					width: 35px;
+					background: black;
+					position: absolute;
+					display: block;
+					content: "";
+					transition: all 500ms ease-in-out;
+					&:before {
+						cursor: pointer;
+						border-radius: 1px;
+						height: 5px;
+						width: 35px;
+						background: black;
+						position: absolute;
+						display: block;
+						content: "";
+						transition: all 500ms ease-in-out;
+						top: -10px;
+					}
+					&:after {
+						cursor: pointer;
+						border-radius: 1px;
+						height: 5px;
+						width: 35px;
+						background: black;
+						position: absolute;
+						display: block;
+						content: "";
+						transition: all 500ms ease-in-out;
+						bottom: -10px;
+					}
+				}
+				&.active {
+					span {
+			  			background-color: transparent;
+			  			&:before {
+			  				top: 0;
+			  				transform: rotate(45deg);
+			  			}
+			  			&:after {
+			  				bottom: 0;
+			  				transform: rotate(-45deg);
+			  			}
+			  		}
+				}
+			}
+		}
+		&.animate {
+			margin-left: -100px;
+			transition: all 200ms ease;
+		}
+		h3 {
+			color: #fff;
+			padding-top: 2px;
+			border-bottom: 1px solid #333;
+			text-align: center;
+			padding-bottom: 10px;
+		}
+		#bar {
+			.user {
+				height: 50px;
+				border-bottom: solid 1px #ccc;
+				cursor: pointer;
+				padding-left: 10px;
+				.user-container {
+					height: 100%;
+					.user-profile {
+						height: 50px;
+						width: 40px;
+						display: inline-block;
+						margin-right: 10px;
+						line-height: 35px;
+						padding: 5px;
+						img {
+							border-radius: 40px;
+							width: 100%;
+						}
+					}
+					.user-nickname {
+						font-weight: 100;
+						font-size: 1.2em;
+						display: inline-block;
+						color: #fff;
+					}
+				}
+				&.active {
+					box-shadow: inset 1px 0px 2px #000;
+					border: 0;
+				}
+				&.animate {
+					margin-left: -100px;
+					transition: all 200ms ease;
+					position: relative;
+				}
+				&:hover {
+					background-color: #b7b7b7;
+					.user-container {
+						.user-nickname {
+							font-weight: 500;
+							color: #333;
+						}
+					}
+				}
+			}
+
+		}
 	}
 }

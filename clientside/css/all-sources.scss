@@ -7,16 +7,75 @@ body,html {
 		overflow: hidden;
 	}
 }
+.clear {
+	clear: both;
+}
 #chat-view {
 	margin-top: 0px;
 	padding-top: 0px;
 	height: 100%;
 	#users-container {
 		height: 100%;
+		position: absolute;
+		z-index: 9;
+		float: right;
+		margin-left: 100%;
+		transition: all 200ms ease-in-out;
+		&.open {
+			margin-left: 0;
+			background-color: #f2f2f2;
+			z-index: 9;
+			transition: all 200ms ease-in-out;
+			#users-list-toggle {
+				cursor: pointer;
+				padding: 17px 41px 22px 5px;
+				display: inline-block;
+				span {
+					cursor: pointer;
+					border-radius: 1px;
+					height: 5px;
+					width: 35px;
+					position: absolute;
+					display: block;
+					content: "";
+					transition: all 500ms ease-in-out;
+					background-color: transparent;
+					&:before {
+						cursor: pointer;
+						border-radius: 1px;
+						height: 5px;
+						width: 35px;
+						background: #000000;
+						position: absolute;
+						display: block;
+						content: "";
+						transition: all 500ms ease-in-out;
+						top: 0;
+			  			transform: rotate(45deg);
+					}
+					&:after {
+						cursor: pointer;
+						border-radius: 1px;
+						height: 5px;
+						width: 35px;
+						background: #000000;
+						position: absolute;
+						display: block;
+						content: "";
+						transition: all 500ms ease-in-out;
+						bottom: 0;
+			  			transform: rotate(-45deg);
+					}
+				}
+			}
+		}
 		h3 {
 			text-align: center;
-			border-bottom: 1px solid #ccc;
+			border-bottom: 0;
 			padding-bottom: 10px;
+			width: 90%;
+			display: block;
+			float: left;
 		}
 		#chat-users {
 			font-weight: 100;
@@ -114,6 +173,11 @@ body,html {
 		  		}
 			}
 		}
+		#users-bar-toggle {
+			color: #000000;
+			float: right;
+			font-size: 33px;
+		}
 		> .collapse {
 			height: 80%;
 		}
@@ -191,9 +255,9 @@ body,html {
 					font-weight: 100;
 					resize: none;
 					border: 0;
-					width: 85%;
+					width: 79%;
 					box-sizing: border-box;
-					padding-right: 60px;
+					padding-right: 10px;
 					display: inline-block;
 					float: left;
 					&.error {
@@ -212,17 +276,19 @@ body,html {
 				display: inline-block;
 			}
 			.icon-action {
-				width: 5%;
+				width: 7%;
 				display: inline-block;
 				float: left;
 				text-align: center;
 				height: 60px;
 				max-height: 60PX;
 				line-height: 60px;
-				border: solid 1px #ccc;
 				padding: 0;
 				box-sizing: border-box;
 				cursor: pointer;
+				border: 0;
+				background-color: transparent;
+				color: #000000;
 				&:hover {
 
 				}
@@ -233,9 +299,252 @@ body,html {
 		}
 	}
 }
+@media screen and (min-width: 1000px) {
+	#chat-view {
+		margin-top: 0px;
+		padding-top: 0px;
+		height: 100%;
+		#users-container {
+			height: 100%;
+			margin-left: 0;
+			position: relative;
+			z-index: 1;
+			h3 {
+				text-align: center;
+				border-bottom: 1px solid #ccc;
+				padding-bottom: 10px;
+			}
+			#users-list-toggle {
+				display: none;
+			}
+			#chat-users {
+				font-weight: 100;
+				margin-bottom: 5px;
+				.user {
+					cursor: pointer;
+					border-bottom: 1px dotted #ccc;
+					margin-left: 10px;
+					margin-right: 10px;
+					box-sizing: border-box;
+					padding-bottom: 5px;
+					padding-top: 5px;
+					&:hover {
+						background-color: #ddd;
+					}
+					&.me-class {
+						font-weight: 900;
+					}
+					.user-info-container {
+						padding-left: 10px;
+						padding-right: 10px;
+						min-height: 50px;
+						line-height: 50px;
+						.user-profile {
+							max-width: 50px;
+							width: 50px;
+							border-radius: 50px;
+							display: inline-block;
+							img {
+								width: 100%;
+								border-radius: 50px;
+							}
+						}
+						.nickname {
+							display: inline-block;
+						}
+					}
+				}
+			}
+		}
+		
+		#comments-container {
+			transition: all 200ms ease-in-out;
+			height: 100%;
+			#users-bar-toggle {
+				display: none;
+			}
+			#nav-toggle {
+				cursor: pointer;
+				padding: 17px 41px 22px 5px;
+				display: inline-block;
+				span {
+					cursor: pointer;
+					border-radius: 1px;
+					height: 5px;
+					width: 35px;
+					background: black;
+					position: absolute;
+					display: block;
+					content: "";
+					transition: all 500ms ease-in-out;
+					&:before {
+						cursor: pointer;
+						border-radius: 1px;
+						height: 5px;
+						width: 35px;
+						background: black;
+						position: absolute;
+						display: block;
+						content: "";
+						transition: all 500ms ease-in-out;
+						top: -10px;
+					}
+					&:after {
+						cursor: pointer;
+						border-radius: 1px;
+						height: 5px;
+						width: 35px;
+						background: black;
+						position: absolute;
+						display: block;
+						content: "";
+						transition: all 500ms ease-in-out;
+						bottom: -10px;
+					}
+				}
+				&.active {
+					span {
+			  			background-color: transparent;
+			  			&:before {
+			  				top: 0;
+			  				transform: rotate(45deg);
+			  			}
+			  			&:after {
+			  				bottom: 0;
+			  				transform: rotate(-45deg);
+			  			}
+			  		}
+				}
+			}
+			#users-toggle {
+				color: #000000;
+				float: right;
+				font-size: 33px;
+			}
+			> .collapse {
+				height: 80%;
+			}
+			#chat-container {
+				width: 100%;
+				height: 100%;
+				overflow-y: scroll;
+				border:1px solid #ccc;
+				background: white;
+				padding: 10px;
+				.user-message-normal {
+					.user-container {
+						max-width: 320px;
+						display: inline-block;
+						float: left;
+						overflow: hidden;
+						margin-right: 10px;
+						.user {
+							width: auto;
+							display: inline-block;
+							float: left;
+							margin-right: 10px;
+							max-width: 320px;
+							text-overflow: ellipsis;
+							white-space: nowrap;
+						}
+					}
+					.message {
+						line-height: 20px;
+						.image-container {
+							width: 170px;
+							height: 150px;
+							display: inline-block;
+							img {
+								width: 150px;
+							}
+							.close-img {
+								font-size: 20px;
+								color: black;
+								width: 20px;
+								position: relative;
+								display: inline-block;
+								float: right;
+								left: -20px;
+								padding-left: 4px;
+								height: 20px;
+								cursor: pointer;
+								&:hover {
+									background-color: black;
+									border-radius: 30px;
+									color: white;
+									opacity: 0.7;
+									line-height: 19px;
+									padding-left: 5px;
+								}
+							}
+						}
+					}
+				}
+				.user-message-error {
+					color: #F00;
+					.icon-attention-alt-1 {
+						display: inline-block;
+						font-size: 12px;
+					}
+				}
+			}
+			.actions-container {
+				margin-top: 20px;
+				textarea {
+					&.input-text {
+						height: 60px;
+						max-height: 60px;
+						font-size: 15px;
+						font-weight: 100;
+						resize: none;
+						border: 0;
+						width: 85%;
+						box-sizing: border-box;
+						padding-right: 10px;
+						display: inline-block;
+						float: left;
+						&.error {
+							border: solid 2px #f00;
+						}
+					}
+				}
+				#send-message {
+					height: 60px;
+					max-height: 60px;
+					margin-top: 0;
+					position: relative;
+					margin-left: -3px;
+					border-radius: 0;
+					line-height: 60px;
+					display: inline-block;
+				}
+				.icon-action {
+					width: 5%;
+					display: inline-block;
+					float: left;
+					text-align: center;
+					height: 60px;
+					max-height: 60PX;
+					line-height: 60px;
+					border: solid 1px #ccc;
+					padding: 0;
+					box-sizing: border-box;
+					cursor: pointer;
+					&:hover {
+
+					}
+				}
+				.clear {
+					clear: both;
+				}
+			}
+		}
+	}
+}
 #chat-app {
 	height: 100%;
 	background-color: #f2f2f2;
+	min-width: 600px;
 }
 
 #login, #confirmation {
@@ -394,7 +703,7 @@ body,html {
 	}
 	.private-chat-window {
 		height: auto;
-		width: 55%;
+		width: 80%;
 		margin: 0 auto;
 		background-color: white;
 		margin-top: 5%;
@@ -502,14 +811,14 @@ body,html {
 		.communication-area {
 			padding: 2%;
 			textarea#messagechat {
-				width: 80%;
+				width: 72%;
 				height: 50px;
 				resize: none;
 				margin: 0;
 				display: inline-block;
 			}
 			.icon-action {
-				width: 5%;
+				width: 8%;
 				display: inline-block;
 				margin: 0;
 				max-width: 50px;
@@ -533,7 +842,6 @@ body,html {
 		letter-spacing: 6px;
 		font-size: 5em;
 		padding: 60px 50px 15px 50px;
-		border-bottom: solid 1px #222;
   		margin:0px 100px 0 100px;
 	}
 	.row {
@@ -593,9 +901,6 @@ body,html {
 			font-size: 2.5em;
 			text-align: right;
 			padding-right: 20px;
-			&:first-letter {
-				font-weight: 900;
-			}
 		}
 		.input-text {
 			height: 100px;
@@ -631,6 +936,11 @@ body,html {
 				margin-top: 25px;
 				font-size: 3em;
 			}
+		}
+		.acceder-link {
+			font-size: 2.5em;
+			margin-top: 49px;
+			text-align: center;
 		}
 	}
 }
@@ -702,6 +1012,7 @@ body,html {
 				line-height: 70px;
 				text-transform: uppercase;
 				letter-spacing: 2px;
+				font-size: 20px;
 				&:first-letter {
 					font-weight: 900;
 				}
@@ -741,6 +1052,11 @@ body,html {
 					font-size: 1em;
 				}
 			}
+			.acceder-link {
+				font-size: 1em;
+				margin-top: 0px;
+				text-align: left;
+			}
 		}
 	}
 }
@@ -759,6 +1075,49 @@ body,html {
 		overflow-y: scroll;
 		overflow-x: hidden;
 		transition: all 200ms ease;
+		#bar-toggle {
+			cursor: pointer;
+			padding: 17px 41px 22px 5px;
+			display: inline-block;
+			span {
+				cursor: pointer;
+				border-radius: 1px;
+				height: 5px;
+				width: 35px;
+				// background: #ffffff;
+				position: absolute;
+				display: block;
+				content: "";
+				transition: all 500ms ease-in-out;
+				background-color: transparent;
+				&:before {
+					cursor: pointer;
+					border-radius: 1px;
+					height: 5px;
+					width: 35px;
+					background: #ffffff;
+					position: absolute;
+					display: block;
+					content: "";
+					transition: all 500ms ease-in-out;
+					top: 0;
+		  			transform: rotate(45deg);
+				}
+				&:after {
+					cursor: pointer;
+					border-radius: 1px;
+					height: 5px;
+					width: 35px;
+					background: #ffffff;
+					position: absolute;
+					display: block;
+					content: "";
+					transition: all 500ms ease-in-out;
+					bottom: 0;
+		  			transform: rotate(-45deg);
+				}
+			}
+		}
 	}
 	&.animate {
 		margin-left: -100px;
@@ -767,9 +1126,11 @@ body,html {
 	h3 {
 		color: #fff;
 		padding-top: 2px;
-		border-bottom: 1px solid #333;
+		border-bottom: 0;
 		text-align: center;
 		padding-bottom: 10px;
+		width: 90%;
+		display: inline-block;
 	}
 	#bar {
 		.user {
@@ -818,5 +1179,139 @@ body,html {
 			}
 		}
 
+	}
+}
+@media screen and (min-width: 1000px) {
+	#user-bar {
+		margin-left: -1000px;
+		position: relative;
+		z-index: 4;
+		float: left;
+		transition: all 200ms ease;
+		background-color: #008cba;
+		&.open {
+			margin-left: 0;
+			position: relative;
+			left: 0;
+			height: 100%;
+			overflow-y: scroll;
+			overflow-x: hidden;
+			transition: all 200ms ease;
+			#bar-toggle {
+				display: none;
+			}
+			#nav-toggle {
+				cursor: pointer;
+				padding: 17px 41px 22px 5px;
+				display: inline-block;
+				span {
+					cursor: pointer;
+					border-radius: 1px;
+					height: 5px;
+					width: 35px;
+					background: black;
+					position: absolute;
+					display: block;
+					content: "";
+					transition: all 500ms ease-in-out;
+					&:before {
+						cursor: pointer;
+						border-radius: 1px;
+						height: 5px;
+						width: 35px;
+						background: black;
+						position: absolute;
+						display: block;
+						content: "";
+						transition: all 500ms ease-in-out;
+						top: -10px;
+					}
+					&:after {
+						cursor: pointer;
+						border-radius: 1px;
+						height: 5px;
+						width: 35px;
+						background: black;
+						position: absolute;
+						display: block;
+						content: "";
+						transition: all 500ms ease-in-out;
+						bottom: -10px;
+					}
+				}
+				&.active {
+					span {
+			  			background-color: transparent;
+			  			&:before {
+			  				top: 0;
+			  				transform: rotate(45deg);
+			  			}
+			  			&:after {
+			  				bottom: 0;
+			  				transform: rotate(-45deg);
+			  			}
+			  		}
+				}
+			}
+		}
+		&.animate {
+			margin-left: -100px;
+			transition: all 200ms ease;
+		}
+		h3 {
+			color: #fff;
+			padding-top: 2px;
+			border-bottom: 1px solid #333;
+			text-align: center;
+			padding-bottom: 10px;
+		}
+		#bar {
+			.user {
+				height: 50px;
+				border-bottom: solid 1px #ccc;
+				cursor: pointer;
+				padding-left: 10px;
+				.user-container {
+					height: 100%;
+					.user-profile {
+						height: 50px;
+						width: 40px;
+						display: inline-block;
+						margin-right: 10px;
+						line-height: 35px;
+						padding: 5px;
+						img {
+							border-radius: 40px;
+							width: 100%;
+						}
+					}
+					.user-nickname {
+						font-weight: 100;
+						font-size: 1.2em;
+						display: inline-block;
+						color: #fff;
+					}
+				}
+				&.active {
+					box-shadow: inset 1px 0px 2px #000;
+					border: 0;
+				}
+				&.animate {
+					margin-left: -100px;
+					transition: all 200ms ease;
+					position: relative;
+				}
+				&:hover {
+					background-color: #b7b7b7;
+					.user-container {
+						.user-nickname {
+							font-weight: 500;
+							color: #333;
+						}
+					}
+				}
+			}
+
+		}
 	}
 }

@@ -312,8 +312,7 @@ chatWindowController.prototype = {
 
 	renderIncomingMessage: function (packet) {
 		var _this = this,
-			template = "templates/chat-individual/user-message.html",
-			$id;
+			template = "templates/chat-individual/user-message.html";
 
 		this._checkWindowByUserId(packet.id_user, function (flag, container) {
 			if (flag) {
@@ -321,9 +320,8 @@ chatWindowController.prototype = {
 				container = container.find('#chat-container-private');
 				_this.templateManager.getView(template, function (response) {
 					if (response) {
-						$id = container.find('#chat-container-private');
 						_this.templateManager.$appendView(response, container, packet);
-						$id.animate({ scrollTop: $id.height() }, 'slow');
+						container.animate({ scrollTop: container.height() }, 'slow');
 					}
 				});
 			}
@@ -332,8 +330,7 @@ chatWindowController.prototype = {
 
 	renderPrivateMessage: function (packet) {
 		var _this = this,
-			template = "templates/chat-individual/user-message.html",
-			$id;
+			template = "templates/chat-individual/user-message.html";
 
 		this._checkWindowByUid(packet.uid, function (flag, container) {
 			_this._cleanContainer(container);
@@ -341,9 +338,8 @@ chatWindowController.prototype = {
 			container = container.find('#chat-container-private');
 			_this.templateManager.getView(template, function (response) {
 				if (response) {
-					$id = container.find('#chat-container-private');
 					_this.templateManager.$appendView(response, container, packet);
-					$id.animate({ scrollTop: $id.height() }, 'slow');	
+					container.animate({ scrollTop: container.height() }, 'slow');	
 				}
 			});
 		});

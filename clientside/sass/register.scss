@@ -9,7 +9,6 @@
 		letter-spacing: 6px;
 		font-size: 5em;
 		padding: 60px 50px 15px 50px;
-		border-bottom: solid 1px #222;
   		margin:0px 100px 0 100px;
 	}
 	.row {
@@ -69,9 +68,6 @@
 			font-size: 2.5em;
 			text-align: right;
 			padding-right: 20px;
-			&:first-letter {
-				font-weight: 900;
-			}
 		}
 		.input-text {
 			height: 100px;
@@ -107,6 +103,11 @@
 				margin-top: 25px;
 				font-size: 3em;
 			}
+		}
+		.acceder-link {
+			font-size: 2.5em;
+			margin-top: 49px;
+			text-align: center;
 		}
 	}
 }
@@ -178,6 +179,7 @@
 				line-height: 70px;
 				text-transform: uppercase;
 				letter-spacing: 2px;
+				font-size: 20px;
 				&:first-letter {
 					font-weight: 900;
 				}
@@ -216,6 +218,11 @@
 					margin-top: 25px;
 					font-size: 1em;
 				}
+			}
+			.acceder-link {
+				font-size: 1em;
+				margin-top: 0px;
+				text-align: left;
 			}
 		}
 	}
