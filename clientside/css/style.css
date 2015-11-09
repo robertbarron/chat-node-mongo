@@ -7,9 +7,6 @@ body, html {
     background-color: #f2f2f2;
     overflow: hidden; }
 
-#chat-app {
-  height: 100%; }
-
 #chat-view {
   margin-top: 0px;
   padding-top: 0px;
@@ -191,55 +188,109 @@ body, html {
       #chat-view #comments-container .actions-container .clear {
         clear: both; }
 
-#login, #confirmation {
-  margin-top: 10%;
-  margin-bottom: 0;
-  padding: 0 5% 5% 5%;
-  box-sizing: border-box; }
-  #login h1, #confirmation h1 {
-    font-weight: 900;
-    text-align: center;
-    letter-spacing: 6px;
-    padding-top: 60px; }
-  #login .login-container, #confirmation .login-container {
-    padding: 60px 0 0; }
-    #login .login-container .input-title, #confirmation .login-container .input-title {
-      height: 70px;
-      line-height: 70px;
-      text-transform: uppercase;
-      letter-spacing: 2px; }
-      #login .login-container .input-title:first-letter, #confirmation .login-container .input-title:first-letter {
-        font-weight: 900; }
-    #login .login-container .input-text, #confirmation .login-container .input-text {
-      height: 70px;
-      font-size: 25px;
-      font-weight: 100; }
-      #login .login-container .input-text.error, #confirmation .login-container .input-text.error {
-        border: solid 1px #f00;
-        margin: 0 0 1rem 0; }
-    #login .login-container .boton-container, #confirmation .login-container .boton-container {
-      text-center: center; }
-      #login .login-container .boton-container #login-submit, #confirmation .login-container .boton-container #login-submit {
-        width: 100%;
-        height: 70px;
-        margin-top: 25px; }
-    #login .login-container .confirmation-container, #confirmation .login-container .confirmation-container {
-      text-align: center; }
-  #login .error-message-container, #confirmation .error-message-container {
-    margin-top: 120px; }
-    #login .error-message-container .error-message, #confirmation .error-message-container .error-message {
-      color: #f00;
-      min-height: 20px;
-      max-height: 20px;
-      margin-top: 20px;
-      font-weight: 100;
-      font-size: 20px; }
-      #login .error-message-container .error-message .error-ico, #login .error-message-container .error-message .info-ico, #confirmation .error-message-container .error-message .error-ico, #confirmation .error-message-container .error-message .info-ico {
-        width: 30px;
-        display: inline-block; }
-      #login .error-message-container .error-message .info, #confirmation .error-message-container .error-message .info {
-        color: #008cba; }
+#chat-app {
+  height: 100%;
+  background-color: #f2f2f2; }
 
+#login, #confirmation {
+  border-bottom-width: 0; }
+  #login h1, #confirmation h1 {
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 40%;
+    margin-bottom: 30px;
+    font-size: 5em;
+    font-weight: 900; }
+  #login .login-container .input-title, #confirmation .login-container .input-title {
+    font-size: 3.5em;
+    height: 100px;
+    line-height: 100px;
+    text-transform: capitalize;
+    letter-spacing: 2px; }
+    #login .login-container .input-title:first-letter, #confirmation .login-container .input-title:first-letter {
+      font-weight: 900; }
+  #login .login-container .input-text, #confirmation .login-container .input-text {
+    height: 100px;
+    font-size: 3em;
+    font-weight: 100; }
+    #login .login-container .input-text.error, #confirmation .login-container .input-text.error {
+      border: solid 1px #f00;
+      margin: 0 0 1rem 0; }
+  #login .login-container .boton-container, #confirmation .login-container .boton-container {
+    text-align: center; }
+    #login .login-container .boton-container #login-submit, #confirmation .login-container .boton-container #login-submit {
+      width: 100%;
+      height: 100px;
+      margin-top: 25px;
+      font-size: 3em; }
+  #login .login-container .confirmation-container, #confirmation .login-container .confirmation-container {
+    text-align: center; }
+  #login .login-container .register-link, #confirmation .login-container .register-link {
+    font-size: 2.5em;
+    margin-top: 49px;
+    text-align: center; }
+
+@media screen and (min-width: 1000px) {
+  #chat-app {
+    background-color: #ffffff; }
+
+  #login, #confirmation {
+    margin-top: 10%;
+    margin-bottom: 0;
+    padding: 0 5% 5% 5%;
+    box-sizing: border-box; }
+    #login h1, #confirmation h1 {
+      font-weight: 900;
+      text-align: center;
+      letter-spacing: 6px;
+      padding-top: 60px;
+      margin-top: 0;
+      font-size: 2.2em; }
+    #login .login-container, #confirmation .login-container {
+      padding: 60px 0 0;
+      margin-top: 40px; }
+      #login .login-container .input-title, #confirmation .login-container .input-title {
+        height: 70px;
+        line-height: 70px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-size: 1em; }
+        #login .login-container .input-title:first-letter, #confirmation .login-container .input-title:first-letter {
+          font-weight: 900; }
+      #login .login-container .input-text, #confirmation .login-container .input-text {
+        height: 70px;
+        font-size: 25px;
+        font-weight: 100; }
+        #login .login-container .input-text.error, #confirmation .login-container .input-text.error {
+          border: solid 1px #f00;
+          margin: 0 0 1rem 0; }
+      #login .login-container .boton-container, #confirmation .login-container .boton-container {
+        text-align: center; }
+        #login .login-container .boton-container #login-submit, #confirmation .login-container .boton-container #login-submit {
+          width: 100%;
+          height: 70px;
+          margin-top: 25px;
+          font-size: 1em; }
+      #login .login-container .confirmation-container, #confirmation .login-container .confirmation-container {
+        text-align: center; }
+      #login .login-container .register-link, #confirmation .login-container .register-link {
+        font-size: 1em;
+        margin-top: 0px;
+        text-align: left; }
+    #login .error-message-container, #confirmation .error-message-container {
+      margin-top: 120px; }
+      #login .error-message-container .error-message, #confirmation .error-message-container .error-message {
+        color: #f00;
+        min-height: 20px;
+        max-height: 20px;
+        margin-top: 20px;
+        font-weight: 100;
+        font-size: 20px; }
+        #login .error-message-container .error-message .error-ico, #login .error-message-container .error-message .info-ico, #confirmation .error-message-container .error-message .error-ico, #confirmation .error-message-container .error-message .info-ico {
+          width: 30px;
+          display: inline-block; }
+        #login .error-message-container .error-message .info, #confirmation .error-message-container .error-message .info {
+          color: #008cba; } }
 #active-chat-windows.active {
   position: absolute;
   top: 0;
@@ -353,11 +404,13 @@ body, html {
 #register {
   margin-top: 0;
   padding: 0 5% 10% 5%;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  border: 0; }
   #register h1 {
     font-weight: 900;
     text-align: center;
     letter-spacing: 6px;
+    font-size: 5em;
     padding: 60px 50px 15px 50px;
     border-bottom: solid 1px #222;
     margin: 0px 100px 0 100px; }
@@ -376,21 +429,21 @@ body, html {
     #register .register-container .image-profile-container {
       text-align: center;
       margin: 0 auto;
-      height: 140px;
-      min-height: 140px;
-      max-height: 140px;
+      height: 200px;
+      min-height: 200px;
+      max-height: 200px;
       cursor: pointer; }
       #register .register-container .image-profile-container .image-profile {
-        width: 100px;
-        height: 100px;
-        border-radius: 100px;
+        width: 150px;
+        height: 150px;
+        border-radius: 150px;
         -webkit-transition: all 200ms;
         transition: all 200ms;
         position: absolute;
         z-index: 1;
         margin-left: -50px; }
         #register .register-container .image-profile-container .image-profile:hover {
-          border-radius: 140px;
+          border-radius: 150px;
           transition: all 200ms;
           -webkit-transform: scale(1.2);
           transform: scale(1.2);
@@ -401,15 +454,18 @@ body, html {
     #register .register-container > .collapse {
       margin-bottom: 20px; }
     #register .register-container .input-title {
-      height: 70px;
-      line-height: 70px;
-      text-transform: uppercase;
-      letter-spacing: 2px; }
+      height: 100px;
+      line-height: 100px;
+      text-transform: capitalize;
+      letter-spacing: 2px;
+      font-size: 2.5em;
+      text-align: right;
+      padding-right: 20px; }
       #register .register-container .input-title:first-letter {
         font-weight: 900; }
     #register .register-container .input-text {
-      height: 70px;
-      font-size: 20px;
+      height: 100px;
+      font-size: 2em;
       font-weight: 100;
       display: block;
       margin: 0;
@@ -432,9 +488,96 @@ body, html {
       text-center: center; }
       #register .register-container .boton-container #register-submit {
         width: 100%;
-        height: 70px;
-        margin-top: 25px; }
+        height: 100px;
+        margin-top: 25px;
+        font-size: 3em; }
 
+@media screen and (min-width: 1000px) {
+  #register {
+    margin-top: 0;
+    padding: 0 5% 10% 5%;
+    box-sizing: border-box; }
+    #register h1 {
+      font-weight: 900;
+      text-align: center;
+      letter-spacing: 6px;
+      padding: 60px 50px 15px 50px;
+      border-bottom: solid 1px #222;
+      margin: 0px 100px 0 100px; }
+    #register .row.collapse {
+      margin-bottom: 20px; }
+    #register .register-container {
+      padding: 30px 0 0; }
+      #register .register-container .user-profile-text {
+        text-align: center;
+        height: 30px;
+        line-height: 30px;
+        text-transform: uppercase;
+        letter-spacing: 2px; }
+        #register .register-container .user-profile-text:first-letter {
+          font-weight: 900; }
+      #register .register-container .image-profile-container {
+        text-align: center;
+        margin: 0 auto;
+        height: 140px;
+        min-height: 140px;
+        max-height: 140px;
+        cursor: pointer; }
+        #register .register-container .image-profile-container .image-profile {
+          width: 100px;
+          height: 100px;
+          border-radius: 100px;
+          -webkit-transition: all 200ms;
+          transition: all 200ms;
+          position: absolute;
+          z-index: 1;
+          margin-left: -50px; }
+          #register .register-container .image-profile-container .image-profile:hover {
+            border-radius: 140px;
+            transition: all 200ms;
+            -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+            transform-origin: 50% 50%;
+            -webkit-transition: all 200ms; }
+        #register .register-container .image-profile-container #image-receiver {
+          display: none; }
+      #register .register-container > .collapse {
+        margin-bottom: 20px; }
+      #register .register-container .input-title {
+        height: 70px;
+        line-height: 70px;
+        text-transform: uppercase;
+        letter-spacing: 2px; }
+        #register .register-container .input-title:first-letter {
+          font-weight: 900; }
+      #register .register-container .input-text {
+        height: 70px;
+        font-size: 20px;
+        font-weight: 100;
+        display: block;
+        margin: 0;
+        box-sizing: border-box; }
+        #register .register-container .input-text.error {
+          border: solid 1px #f00; }
+      #register .register-container .error-message {
+        color: #f00;
+        min-height: 20px;
+        max-height: 20px;
+        margin-top: 20px;
+        font-weight: 100;
+        font-size: 20px; }
+        #register .register-container .error-message .error-ico, #register .register-container .error-message .info-ico {
+          width: 30px;
+          display: inline-block; }
+        #register .register-container .error-message .info {
+          color: #008cba; }
+      #register .register-container .boton-container {
+        text-center: center; }
+        #register .register-container .boton-container #register-submit {
+          width: 100%;
+          height: 70px;
+          margin-top: 25px;
+          font-size: 1em; } }
 #user-bar {
   margin-left: -1000px;
   position: relative;

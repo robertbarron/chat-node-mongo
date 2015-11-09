@@ -7,9 +7,6 @@ body,html {
 		overflow: hidden;
 	}
 }
-#chat-app {
-	height: 100%;
-}
 #chat-view {
 	margin-top: 0px;
 	padding-top: 0px;
@@ -236,31 +233,35 @@ body,html {
 		}
 	}
 }
+#chat-app {
+	height: 100%;
+	background-color: #f2f2f2;
+}
+
 #login, #confirmation {
-	margin-top: 10%;
-	margin-bottom: 0;
-  	padding: 0 5% 5% 5%;
-  	box-sizing: border-box;
-  	h1 {
-		font-weight: 900;
+	border-bottom-width: 0;
+	h1 {
+		margin: 0 auto;
 		text-align: center;
-		letter-spacing: 6px;
-		padding-top: 60px;
+		margin-top: 40%;
+		margin-bottom: 30px;
+		font-size: 5em;
+		font-weight: 900;
 	}
 	.login-container {
-		padding: 60px 0 0;
 		.input-title {
-			height: 70px;
-			line-height: 70px;
-			text-transform: uppercase;
+			font-size: 3.5em;
+			height: 100px;
+			line-height: 100px;
+			text-transform: capitalize;
 			letter-spacing: 2px;
 			&:first-letter {
 				font-weight: 900;
 			}
 		}
 		.input-text {
-			height: 70px;
-			font-size: 25px;
+			height: 100px;
+			font-size: 3em;
 			font-weight: 100;
 			&.error {
 				border: solid 1px #f00;
@@ -268,32 +269,98 @@ body,html {
 			}
 		}
 		.boton-container {
-			text-center: center;
+			text-align: center;
 			#login-submit {
 				width: 100%;
-				height: 70px;
+				height: 100px;
 				margin-top: 25px;
+				font-size: 3em;
 			}
 		}
 		.confirmation-container {
 			text-align: center;
 		}
+		.register-link {
+			font-size: 2.5em;
+			margin-top: 49px;
+			text-align: center;
+		}
 	}
-	.error-message-container {
-		margin-top: 120px;
-		.error-message {
-			color: #f00;
-			min-height: 20px;
-			max-height: 20px;
-			margin-top: 20px;
-			font-weight: 100;
-			font-size: 20px;
-			.error-ico, .info-ico {
-				width: 30px;
-				display: inline-block;
+}
+
+@media screen and (min-width: 1000px) {
+	#chat-app {
+		background-color: #ffffff; 
+	}
+	#login, #confirmation {
+		margin-top: 10%;
+		margin-bottom: 0;
+	  	padding: 0 5% 5% 5%;
+	  	box-sizing: border-box;
+	  	h1 {
+			font-weight: 900;
+			text-align: center;
+			letter-spacing: 6px;
+			padding-top: 60px;
+			margin-top: 0;
+			font-size: 2.2em;
+		}
+		.login-container {
+			padding: 60px 0 0;
+			margin-top: 40px;
+			.input-title {
+				height: 70px;
+				line-height: 70px;
+				text-transform: uppercase;
+				letter-spacing: 2px;
+				font-size: 1em;
+				&:first-letter {
+					font-weight: 900;
+				}
 			}
-			.info {
-				color: #008cba;
+			.input-text {
+				height: 70px;
+				font-size: 25px;
+				font-weight: 100;
+				&.error {
+					border: solid 1px #f00;
+					margin: 0 0 1rem 0
+				}
+			}
+			.boton-container {
+				text-align: center;
+				#login-submit {
+					width: 100%;
+					height: 70px;
+					margin-top: 25px;
+					font-size: 1em;
+				}
+			}
+			.confirmation-container {
+				text-align: center;
+			}
+			.register-link {
+				font-size: 1em;
+				margin-top: 0px;
+				text-align: left;
+			}
+		}
+		.error-message-container {
+			margin-top: 120px;
+			.error-message {
+				color: #f00;
+				min-height: 20px;
+				max-height: 20px;
+				margin-top: 20px;
+				font-weight: 100;
+				font-size: 20px;
+				.error-ico, .info-ico {
+					width: 30px;
+					display: inline-block;
+				}
+				.info {
+					color: #008cba;
+				}
 			}
 		}
 	}
@@ -441,10 +508,12 @@ body,html {
 	margin-top: 0;
   	padding: 0 5% 10% 5%;
   	box-sizing: border-box;
+  	border: 0;
   	h1 {
 		font-weight: 900;
 		text-align: center;
 		letter-spacing: 6px;
+		font-size: 5em;
 		padding: 60px 50px 15px 50px;
 		border-bottom: solid 1px #222;
   		margin:0px 100px 0 100px;
@@ -468,21 +537,21 @@ body,html {
 		.image-profile-container {
 			text-align: center;
 			margin: 0 auto;
-			height: 140px;
-			min-height: 140px;
-			max-height: 140px;
+			height: 200px;
+			min-height: 200px;
+			max-height: 200px;
 			cursor: pointer;
 			.image-profile {
-				width: 100px;
-				height: 100px;
-				border-radius: 100px;
+				width: 150px;
+				height: 150px;
+				border-radius: 150px;
 				-webkit-transition: all 200ms;
     			transition: all 200ms;
     			position: absolute;
     			z-index: 1;
     			margin-left: -50px;
 				&:hover {
-					border-radius: 140px;
+					border-radius: 150px;
 					transition: all 200ms;
 					-webkit-transform: scale(1.2);
 					transform: scale(1.2);
@@ -499,17 +568,20 @@ body,html {
 			margin-bottom: 20px;
 		}
 		.input-title {
-			height: 70px;
-			line-height: 70px;
-			text-transform: uppercase;
+			height: 100px;
+			line-height: 100px;
+			text-transform: capitalize;
 			letter-spacing: 2px;
+			font-size: 2.5em;
+			text-align: right;
+			padding-right: 20px;
 			&:first-letter {
 				font-weight: 900;
 			}
 		}
 		.input-text {
-			height: 70px;
-			font-size: 20px;
+			height: 100px;
+			font-size: 2em;
 			font-weight: 100;
 			display: block;
 			margin: 0;
@@ -537,8 +609,119 @@ body,html {
 			text-center: center;
 			#register-submit {
 				width: 100%;
-				height: 70px;
+				height: 100px;
 				margin-top: 25px;
+				font-size: 3em;
+			}
+		}
+	}
+}
+
+@media screen and (min-width: 1000px) {
+	#register {
+		margin-top: 0;
+	  	padding: 0 5% 10% 5%;
+	  	box-sizing: border-box;
+	  	h1 {
+			font-weight: 900;
+			text-align: center;
+			letter-spacing: 6px;
+			padding: 60px 50px 15px 50px;
+			border-bottom: solid 1px #222;
+	  		margin:0px 100px 0 100px;
+		}
+		.row {
+			&.collapse {
+				margin-bottom: 20px;
+			}
+		}
+		.register-container {
+			.user-profile-text {
+				text-align: center;
+				height: 30px;
+				line-height: 30px;
+				text-transform: uppercase;
+				letter-spacing: 2px;
+				&:first-letter {
+					font-weight: 900;
+				}
+			}
+			.image-profile-container {
+				text-align: center;
+				margin: 0 auto;
+				height: 140px;
+				min-height: 140px;
+				max-height: 140px;
+				cursor: pointer;
+				.image-profile {
+					width: 100px;
+					height: 100px;
+					border-radius: 100px;
+					-webkit-transition: all 200ms;
+	    			transition: all 200ms;
+	    			position: absolute;
+	    			z-index: 1;
+	    			margin-left: -50px;
+					&:hover {
+						border-radius: 140px;
+						transition: all 200ms;
+						-webkit-transform: scale(1.2);
+						transform: scale(1.2);
+						transform-origin: 50% 50%;
+						-webkit-transition: all 200ms;
+					}
+				}
+				#image-receiver {
+					display: none;
+				}
+			}
+			padding: 30px 0 0;
+			> .collapse {
+				margin-bottom: 20px;
+			}
+			.input-title {
+				height: 70px;
+				line-height: 70px;
+				text-transform: uppercase;
+				letter-spacing: 2px;
+				&:first-letter {
+					font-weight: 900;
+				}
+			}
+			.input-text {
+				height: 70px;
+				font-size: 20px;
+				font-weight: 100;
+				display: block;
+				margin: 0;
+				box-sizing: border-box;
+				&.error {
+					border: solid 1px #f00;
+				}
+			}
+			.error-message {
+				color: #f00;
+				min-height: 20px;
+				max-height: 20px;
+				margin-top: 20px;
+				font-weight: 100;
+				font-size: 20px;
+				.error-ico, .info-ico {
+					width: 30px;
+					display: inline-block;
+				}
+				.info {
+					color: #008cba;
+				}
+			}
+			.boton-container {
+				text-center: center;
+				#register-submit {
+					width: 100%;
+					height: 70px;
+					margin-top: 25px;
+					font-size: 1em;
+				}
 			}
 		}
 	}
