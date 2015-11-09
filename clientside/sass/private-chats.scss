@@ -137,3 +137,32 @@
 		}
 	}
 }
+
+@media screen and (min-width: 1000px) {
+	#active-chat-windows {
+		
+		.private-chat-window {
+			.communication-area {
+				padding: 2%;
+				textarea#messagechat {
+					width: 83%;
+					height: 50px;
+					resize: none;
+					margin: 0;
+					display: inline-block;
+				}
+				.icon-action {
+					width: 5%;
+					display: inline-block;
+					margin: 0;
+					max-width: 50px;
+					padding: 0;
+					line-height: 50px;
+					top: 0;
+					height: 50px;
+					overflow: hidden;
+				}
+			}
+		}
+	}
+}

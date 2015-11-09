@@ -20,50 +20,52 @@ body, html {
     z-index: 9;
     float: right;
     margin-left: 100%;
-    transition: all 200ms ease-in-out; }
+    transition: all 200ms ease-in-out;
+    display: none; }
     #chat-view #users-container.open {
       margin-left: 0;
       background-color: #f2f2f2;
       z-index: 9;
-      transition: all 200ms ease-in-out; }
-      #chat-view #users-container.open #users-list-toggle {
+      transition: all 200ms ease-in-out;
+      display: block; }
+    #chat-view #users-container #users-list-toggle {
+      cursor: pointer;
+      padding: 17px 41px 22px 5px;
+      display: inline-block; }
+      #chat-view #users-container #users-list-toggle span {
         cursor: pointer;
-        padding: 17px 41px 22px 5px;
-        display: inline-block; }
-        #chat-view #users-container.open #users-list-toggle span {
+        border-radius: 1px;
+        height: 5px;
+        width: 35px;
+        position: absolute;
+        display: block;
+        content: "";
+        transition: all 500ms ease-in-out;
+        background-color: transparent; }
+        #chat-view #users-container #users-list-toggle span:before {
           cursor: pointer;
           border-radius: 1px;
           height: 5px;
           width: 35px;
+          background: #000000;
           position: absolute;
           display: block;
           content: "";
           transition: all 500ms ease-in-out;
-          background-color: transparent; }
-          #chat-view #users-container.open #users-list-toggle span:before {
-            cursor: pointer;
-            border-radius: 1px;
-            height: 5px;
-            width: 35px;
-            background: #000000;
-            position: absolute;
-            display: block;
-            content: "";
-            transition: all 500ms ease-in-out;
-            top: 0;
-            transform: rotate(45deg); }
-          #chat-view #users-container.open #users-list-toggle span:after {
-            cursor: pointer;
-            border-radius: 1px;
-            height: 5px;
-            width: 35px;
-            background: #000000;
-            position: absolute;
-            display: block;
-            content: "";
-            transition: all 500ms ease-in-out;
-            bottom: 0;
-            transform: rotate(-45deg); }
+          top: 0;
+          transform: rotate(45deg); }
+        #chat-view #users-container #users-list-toggle span:after {
+          cursor: pointer;
+          border-radius: 1px;
+          height: 5px;
+          width: 35px;
+          background: #000000;
+          position: absolute;
+          display: block;
+          content: "";
+          transition: all 500ms ease-in-out;
+          bottom: 0;
+          transform: rotate(-45deg); }
     #chat-view #users-container h3 {
       text-align: center;
       border-bottom: 0;
@@ -219,7 +221,8 @@ body, html {
         box-sizing: border-box;
         padding-right: 10px;
         display: inline-block;
-        float: left; }
+        float: left;
+        border: solid 1px #ccc; }
         #chat-view #comments-container .actions-container textarea.input-text.error {
           border: solid 2px #f00; }
       #chat-view #comments-container .actions-container #send-message {
@@ -257,7 +260,8 @@ body, html {
       height: 100%;
       margin-left: 0;
       position: relative;
-      z-index: 1; }
+      z-index: 0;
+      display: block; }
       #chat-view #users-container h3 {
         text-align: center;
         border-bottom: 1px solid #ccc;
@@ -668,6 +672,25 @@ body, html {
       height: 50px;
       overflow: hidden; }
 
+@media screen and (min-width: 1000px) {
+  #active-chat-windows .private-chat-window .communication-area {
+    padding: 2%; }
+    #active-chat-windows .private-chat-window .communication-area textarea#messagechat {
+      width: 83%;
+      height: 50px;
+      resize: none;
+      margin: 0;
+      display: inline-block; }
+    #active-chat-windows .private-chat-window .communication-area .icon-action {
+      width: 5%;
+      display: inline-block;
+      margin: 0;
+      max-width: 50px;
+      padding: 0;
+      line-height: 50px;
+      top: 0;
+      height: 50px;
+      overflow: hidden; } }
 #register {
   margin-top: 0;
   padding: 0 5% 10% 5%;
@@ -678,8 +701,8 @@ body, html {
     text-align: center;
     letter-spacing: 6px;
     font-size: 5em;
-    padding: 60px 50px 15px 50px;
-    margin: 0px 100px 0 100px; }
+    margin: 0;
+    padding: 0; }
   #register .row.collapse {
     margin-bottom: 20px; }
   #register .register-container {

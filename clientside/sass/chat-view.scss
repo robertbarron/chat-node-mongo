@@ -21,51 +21,53 @@ body,html {
 		float: right;
 		margin-left: 100%;
 		transition: all 200ms ease-in-out;
+		display: none;
 		&.open {
 			margin-left: 0;
 			background-color: #f2f2f2;
 			z-index: 9;
 			transition: all 200ms ease-in-out;
-			#users-list-toggle {
+			display: block;
+		}
+		#users-list-toggle {
+			cursor: pointer;
+			padding: 17px 41px 22px 5px;
+			display: inline-block;
+			span {
 				cursor: pointer;
-				padding: 17px 41px 22px 5px;
-				display: inline-block;
-				span {
+				border-radius: 1px;
+				height: 5px;
+				width: 35px;
+				position: absolute;
+				display: block;
+				content: "";
+				transition: all 500ms ease-in-out;
+				background-color: transparent;
+				&:before {
 					cursor: pointer;
 					border-radius: 1px;
 					height: 5px;
 					width: 35px;
+					background: #000000;
 					position: absolute;
 					display: block;
 					content: "";
 					transition: all 500ms ease-in-out;
-					background-color: transparent;
-					&:before {
-						cursor: pointer;
-						border-radius: 1px;
-						height: 5px;
-						width: 35px;
-						background: #000000;
-						position: absolute;
-						display: block;
-						content: "";
-						transition: all 500ms ease-in-out;
-						top: 0;
-			  			transform: rotate(45deg);
-					}
-					&:after {
-						cursor: pointer;
-						border-radius: 1px;
-						height: 5px;
-						width: 35px;
-						background: #000000;
-						position: absolute;
-						display: block;
-						content: "";
-						transition: all 500ms ease-in-out;
-						bottom: 0;
-			  			transform: rotate(-45deg);
-					}
+					top: 0;
+		  			transform: rotate(45deg);
+				}
+				&:after {
+					cursor: pointer;
+					border-radius: 1px;
+					height: 5px;
+					width: 35px;
+					background: #000000;
+					position: absolute;
+					display: block;
+					content: "";
+					transition: all 500ms ease-in-out;
+					bottom: 0;
+		  			transform: rotate(-45deg);
 				}
 			}
 		}
@@ -260,6 +262,7 @@ body,html {
 					padding-right: 10px;
 					display: inline-block;
 					float: left;
+					border: solid 1px #ccc;
 					&.error {
 						border: solid 2px #f00;
 					}
@@ -308,7 +311,8 @@ body,html {
 			height: 100%;
 			margin-left: 0;
 			position: relative;
-			z-index: 1;
+			z-index: 0;
+			display: block;
 			h3 {
 				text-align: center;
 				border-bottom: 1px solid #ccc;
