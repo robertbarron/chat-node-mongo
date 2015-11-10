@@ -6,7 +6,8 @@ module.exports = function (grunt) {
       source: 'clientside/sass',
       dist: 'clientside/css',
       js: 'clientside/js/',
-      vendors: 'clientside/vendors/'
+      vendors: 'clientside/vendors/',
+      dummy : 'dimy'
     },
     concat: {
       dist: {
