@@ -7,16 +7,31 @@
 	background-color: #008cba;
 	&.open {
 		margin-left: 0;
-		position: relative;
 		left: 0;
 		height: 100%;
 		overflow-y: scroll;
 		overflow-x: hidden;
 		transition: all 200ms ease;
+		position: fixed;
+		padding-top: 20px;
+	}
+	&.animate {
+		margin-left: -100px;
+		transition: all 200ms ease;
+	}
+	h3 {
+		color: #fff;
+		border-bottom: 0;
+		text-align: center;
+		padding-bottom: 10px;
+		width: 100%;
+		display: inline-block;
 		#bar-toggle {
 			cursor: pointer;
-			padding: 17px 41px 22px 5px;
+			padding: 5px 41px 22px 5px;
 			display: inline-block;
+			float: left;
+			margin-left: 10px;
 			span {
 				cursor: pointer;
 				border-radius: 1px;
@@ -56,19 +71,6 @@
 				}
 			}
 		}
-	}
-	&.animate {
-		margin-left: -100px;
-		transition: all 200ms ease;
-	}
-	h3 {
-		color: #fff;
-		padding-top: 2px;
-		border-bottom: 0;
-		text-align: center;
-		padding-bottom: 10px;
-		width: 90%;
-		display: inline-block;
 	}
 	#bar {
 		.user {
@@ -135,62 +137,7 @@
 			overflow-y: scroll;
 			overflow-x: hidden;
 			transition: all 200ms ease;
-			#bar-toggle {
-				display: none;
-			}
-			#nav-toggle {
-				cursor: pointer;
-				padding: 17px 41px 22px 5px;
-				display: inline-block;
-				span {
-					cursor: pointer;
-					border-radius: 1px;
-					height: 5px;
-					width: 35px;
-					background: black;
-					position: absolute;
-					display: block;
-					content: "";
-					transition: all 500ms ease-in-out;
-					&:before {
-						cursor: pointer;
-						border-radius: 1px;
-						height: 5px;
-						width: 35px;
-						background: black;
-						position: absolute;
-						display: block;
-						content: "";
-						transition: all 500ms ease-in-out;
-						top: -10px;
-					}
-					&:after {
-						cursor: pointer;
-						border-radius: 1px;
-						height: 5px;
-						width: 35px;
-						background: black;
-						position: absolute;
-						display: block;
-						content: "";
-						transition: all 500ms ease-in-out;
-						bottom: -10px;
-					}
-				}
-				&.active {
-					span {
-			  			background-color: transparent;
-			  			&:before {
-			  				top: 0;
-			  				transform: rotate(45deg);
-			  			}
-			  			&:after {
-			  				bottom: 0;
-			  				transform: rotate(-45deg);
-			  			}
-			  		}
-				}
-			}
+			
 		}
 		&.animate {
 			margin-left: -100px;
@@ -202,6 +149,9 @@
 			border-bottom: 1px solid #333;
 			text-align: center;
 			padding-bottom: 10px;
+			#bar-toggle {
+				display: none;
+			}
 		}
 		#bar {
 			.user {

@@ -18,63 +18,73 @@ body, html {
   height: 100%; }
   #chat-view #users-container {
     height: 100%;
-    position: absolute;
+    position: relative;
     z-index: 9;
     float: right;
     margin-left: 100%;
     transition: all 200ms ease-in-out;
+    opacity: 0;
     display: none; }
     #chat-view #users-container.open {
       margin-left: 0;
-      background-color: #f2f2f2;
+      background-color: #008cba;
       z-index: 9;
-      transition: all 200ms ease-in-out;
-      display: block; }
-    #chat-view #users-container #users-list-toggle {
-      cursor: pointer;
-      padding: 17px 41px 22px 5px;
-      display: inline-block; }
-      #chat-view #users-container #users-list-toggle span {
-        cursor: pointer;
-        border-radius: 1px;
-        height: 5px;
-        width: 35px;
-        position: absolute;
-        display: block;
-        content: "";
-        transition: all 500ms ease-in-out;
-        background-color: transparent; }
-        #chat-view #users-container #users-list-toggle span:before {
-          cursor: pointer;
-          border-radius: 1px;
-          height: 5px;
-          width: 35px;
-          background: #000000;
-          position: absolute;
-          display: block;
-          content: "";
-          transition: all 500ms ease-in-out;
-          top: 0;
-          transform: rotate(45deg); }
-        #chat-view #users-container #users-list-toggle span:after {
-          cursor: pointer;
-          border-radius: 1px;
-          height: 5px;
-          width: 35px;
-          background: #000000;
-          position: absolute;
-          display: block;
-          content: "";
-          transition: all 500ms ease-in-out;
-          bottom: 0;
-          transform: rotate(-45deg); }
+      transition: all 200ms ease-in-outtextarea;
+      display: block;
+      float: left;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      opacity: 1;
+      left: 0;
+      padding-top: 20px; }
     #chat-view #users-container h3 {
       text-align: center;
       border-bottom: 0;
       padding-bottom: 10px;
-      width: 90%;
-      display: block;
-      float: left; }
+      width: 100%;
+      display: inline-block;
+      color: #ffffff; }
+      #chat-view #users-container h3 #users-list-toggle {
+        cursor: pointer;
+        padding: 5px 41px 22px 5px;
+        display: inline-block;
+        float: right;
+        margin-right: 20px; }
+        #chat-view #users-container h3 #users-list-toggle span {
+          cursor: pointer;
+          border-radius: 1px;
+          height: 5px;
+          width: 35px;
+          position: absolute;
+          display: block;
+          content: "";
+          transition: all 500ms ease-in-out;
+          background-color: transparent; }
+          #chat-view #users-container h3 #users-list-toggle span:before {
+            cursor: pointer;
+            border-radius: 1px;
+            height: 5px;
+            width: 35px;
+            background: #ffffff;
+            position: absolute;
+            display: block;
+            content: "";
+            transition: all 500ms ease-in-out;
+            top: 0;
+            transform: rotate(45deg); }
+          #chat-view #users-container h3 #users-list-toggle span:after {
+            cursor: pointer;
+            border-radius: 1px;
+            height: 5px;
+            width: 35px;
+            background: #ffffff;
+            position: absolute;
+            display: block;
+            content: "";
+            transition: all 500ms ease-in-out;
+            bottom: 0;
+            transform: rotate(-45deg); }
     #chat-view #users-container #chat-users {
       font-weight: 100;
       margin-bottom: 5px; }
@@ -104,10 +114,12 @@ body, html {
               width: 100%;
               border-radius: 50px; }
           #chat-view #users-container #chat-users .user .user-info-container .nickname {
+            color: #ffffff;
             display: inline-block; }
   #chat-view #comments-container {
     transition: all 200ms ease-in-out;
-    height: 100%; }
+    height: 100%;
+    padding-top: 15px; }
     #chat-view #comments-container #nav-toggle {
       cursor: pointer;
       padding: 17px 41px 22px 5px;
@@ -157,7 +169,7 @@ body, html {
       float: right;
       font-size: 33px; }
     #chat-view #comments-container > .collapse {
-      height: 80%; }
+      height: 100%; }
     #chat-view #comments-container #chat-container {
       width: 100%;
       height: 100%;
@@ -219,7 +231,7 @@ body, html {
         font-weight: 100;
         resize: none;
         border: 0;
-        width: 79%;
+        width: 74%;
         box-sizing: border-box;
         padding-right: 10px;
         display: inline-block;
@@ -237,7 +249,7 @@ body, html {
         line-height: 60px;
         display: inline-block; }
       #chat-view #comments-container .actions-container .icon-action {
-        width: 7%;
+        width: 13%;
         display: inline-block;
         float: left;
         text-align: center;
@@ -248,8 +260,10 @@ body, html {
         box-sizing: border-box;
         cursor: pointer;
         border: 0;
-        background-color: transparent;
-        color: #000000; }
+        color: #000000;
+        font-size: 1.6em; }
+        #chat-view #comments-container .actions-container .icon-action.icon-attach-1 {
+          display: none; }
       #chat-view #comments-container .actions-container .clear {
         clear: both; }
 
@@ -263,13 +277,16 @@ body, html {
       margin-left: 0;
       position: relative;
       z-index: 0;
-      display: block; }
+      display: block;
+      opacity: 1; }
       #chat-view #users-container h3 {
         text-align: center;
         border-bottom: 1px solid #ccc;
-        padding-bottom: 10px; }
-      #chat-view #users-container #users-list-toggle {
-        display: none; }
+        padding-bottom: 10px;
+        color: #000000;
+        margin-top: 20px; }
+        #chat-view #users-container h3 #users-list-toggle {
+          display: none; }
       #chat-view #users-container #chat-users {
         font-weight: 100;
         margin-bottom: 5px; }
@@ -299,7 +316,8 @@ body, html {
                 width: 100%;
                 border-radius: 50px; }
             #chat-view #users-container #chat-users .user .user-info-container .nickname {
-              display: inline-block; }
+              display: inline-block;
+              color: #000000; }
     #chat-view #comments-container {
       transition: all 200ms ease-in-out;
       height: 100%; }
@@ -444,6 +462,8 @@ body, html {
           padding: 0;
           box-sizing: border-box;
           cursor: pointer; }
+          #chat-view #comments-container .actions-container .icon-action.icon-attach-1 {
+            display: inline-block; }
         #chat-view #comments-container .actions-container .clear {
           clear: both; } }
 #chat-app {
@@ -565,7 +585,7 @@ body, html {
         #login .error-message-container .error-message .info, #confirmation .error-message-container .error-message .info {
           color: #008cba; } }
 #active-chat-windows.active {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -603,7 +623,8 @@ body, html {
       float: right; }
       #active-chat-windows .private-chat-window .header-chat .action-window .icon-action {
         float: left;
-        cursor: pointer; }
+        cursor: pointer;
+        color: white; }
         #active-chat-windows .private-chat-window .header-chat .action-window .icon-action.icon-minimize {
           border-bottom: solid 8px #000;
           width: 35px;
@@ -885,17 +906,30 @@ body, html {
   background-color: #008cba; }
   #user-bar.open {
     margin-left: 0;
-    position: relative;
     left: 0;
     height: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
+    transition: all 200ms ease;
+    position: fixed;
+    padding-top: 20px; }
+  #user-bar.animate {
+    margin-left: -100px;
     transition: all 200ms ease; }
-    #user-bar.open #bar-toggle {
+  #user-bar h3 {
+    color: #fff;
+    border-bottom: 0;
+    text-align: center;
+    padding-bottom: 10px;
+    width: 100%;
+    display: inline-block; }
+    #user-bar h3 #bar-toggle {
       cursor: pointer;
-      padding: 17px 41px 22px 5px;
-      display: inline-block; }
-      #user-bar.open #bar-toggle span {
+      padding: 5px 41px 22px 5px;
+      display: inline-block;
+      float: left;
+      margin-left: 10px; }
+      #user-bar h3 #bar-toggle span {
         cursor: pointer;
         border-radius: 1px;
         height: 5px;
@@ -905,7 +939,7 @@ body, html {
         content: "";
         transition: all 500ms ease-in-out;
         background-color: transparent; }
-        #user-bar.open #bar-toggle span:before {
+        #user-bar h3 #bar-toggle span:before {
           cursor: pointer;
           border-radius: 1px;
           height: 5px;
@@ -917,7 +951,7 @@ body, html {
           transition: all 500ms ease-in-out;
           top: 0;
           transform: rotate(45deg); }
-        #user-bar.open #bar-toggle span:after {
+        #user-bar h3 #bar-toggle span:after {
           cursor: pointer;
           border-radius: 1px;
           height: 5px;
@@ -929,17 +963,6 @@ body, html {
           transition: all 500ms ease-in-out;
           bottom: 0;
           transform: rotate(-45deg); }
-  #user-bar.animate {
-    margin-left: -100px;
-    transition: all 200ms ease; }
-  #user-bar h3 {
-    color: #fff;
-    padding-top: 2px;
-    border-bottom: 0;
-    text-align: center;
-    padding-bottom: 10px;
-    width: 90%;
-    display: inline-block; }
   #user-bar #bar .user {
     height: 50px;
     border-bottom: solid 1px #ccc;
@@ -991,52 +1014,6 @@ body, html {
       overflow-y: scroll;
       overflow-x: hidden;
       transition: all 200ms ease; }
-      #user-bar.open #bar-toggle {
-        display: none; }
-      #user-bar.open #nav-toggle {
-        cursor: pointer;
-        padding: 17px 41px 22px 5px;
-        display: inline-block; }
-        #user-bar.open #nav-toggle span {
-          cursor: pointer;
-          border-radius: 1px;
-          height: 5px;
-          width: 35px;
-          background: black;
-          position: absolute;
-          display: block;
-          content: "";
-          transition: all 500ms ease-in-out; }
-          #user-bar.open #nav-toggle span:before {
-            cursor: pointer;
-            border-radius: 1px;
-            height: 5px;
-            width: 35px;
-            background: black;
-            position: absolute;
-            display: block;
-            content: "";
-            transition: all 500ms ease-in-out;
-            top: -10px; }
-          #user-bar.open #nav-toggle span:after {
-            cursor: pointer;
-            border-radius: 1px;
-            height: 5px;
-            width: 35px;
-            background: black;
-            position: absolute;
-            display: block;
-            content: "";
-            transition: all 500ms ease-in-out;
-            bottom: -10px; }
-        #user-bar.open #nav-toggle.active span {
-          background-color: transparent; }
-          #user-bar.open #nav-toggle.active span:before {
-            top: 0;
-            transform: rotate(45deg); }
-          #user-bar.open #nav-toggle.active span:after {
-            bottom: 0;
-            transform: rotate(-45deg); }
     #user-bar.animate {
       margin-left: -100px;
       transition: all 200ms ease; }
@@ -1046,6 +1023,8 @@ body, html {
       border-bottom: 1px solid #333;
       text-align: center;
       padding-bottom: 10px; }
+      #user-bar h3 #bar-toggle {
+        display: none; }
     #user-bar #bar .user {
       height: 50px;
       border-bottom: solid 1px #ccc;

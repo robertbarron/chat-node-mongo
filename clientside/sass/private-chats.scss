@@ -1,6 +1,6 @@
 #active-chat-windows {
 	&.active {
-		position: absolute;
+		position: fixed;
 		top: 0;
 		left: 0;
 		width: 100%;
@@ -44,6 +44,7 @@
 				.icon-action {
 					float: left;
 					cursor: pointer;
+					color: white;
 					&.icon-minimize {
 						border-bottom: solid 8px #000;
 						width: 35px;
