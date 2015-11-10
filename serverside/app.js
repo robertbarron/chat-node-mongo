@@ -37,7 +37,8 @@ app.use('/templates', express.static('../clientside/templates/') );
 app.use('/css', express.static('../clientside/css/') );
 app.use('/cssimages', express.static('../clientside/cssimages/') );
 app.use('/vendors', express.static('../clientside/vendors') );
-app.use('/foundation', express.static('../node_modules/zurb-foundation-npm') );
+// app.use('/font', express.static('../clientside/vendors/fontello/font') );
+// app.use('/foundation', express.static('../node_modules/zurb-foundation-npm') );
 
 /* ROUTES */
 app.get('/', function(req, res) {

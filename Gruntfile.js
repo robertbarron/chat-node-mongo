@@ -13,7 +13,6 @@ module.exports = function (grunt) {
         dest: '<%= ambientes.dist %>/compiled.min.css',
         src: [
           'node_modules/zurb-foundation-npm/css/foundation.min.css',
-          '<%= ambientes.vendors %>/fontello/css/fontello.css',
           '<%= ambientes.dist %>/style.css'
 
         ]
