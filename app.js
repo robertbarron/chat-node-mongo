@@ -32,7 +32,7 @@ app.use(busboy());
 
 /* SERVER STATIC REPOSITORIES */
 app.use('/user_images', express.static('./clientside/user_images/') );
-app.use('/static', express.static('./clientside/js/') );
+app.use('/static', express.static('./clientside/js/compiled/') );
 app.use('/templates', express.static('./clientside/templates/') );
 app.use('/css', express.static('./clientside/css/') );
 app.use('/cssimages', express.static('./clientside/cssimages/') );
