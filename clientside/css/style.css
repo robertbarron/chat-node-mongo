@@ -6,6 +6,8 @@ body, html {
   body.chat-active, html.chat-active {
     background-color: #f2f2f2;
     overflow: hidden; }
+  body *, html * {
+    font-family: 'Roboto', sans-serif; }
 
 .clear {
   clear: both; }
